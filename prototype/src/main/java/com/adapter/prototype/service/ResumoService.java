@@ -17,7 +17,7 @@ public class ResumoService {
         String texto = request != null ? request.getTexto() : null;
 
         if (texto == null || texto.isBlank()) {
-            throw new TextoInvalidoException("O campo 'texto' não pode ser nulo ou vazio.");
+            throw new TextoInvalidoException("O texto não pode estar vazio.");
         }
 
         if (texto.length() < TAMANHO_MINIMO) {
@@ -27,7 +27,7 @@ public class ResumoService {
 
         if (texto.length() > TAMANHO_MAXIMO) {
             throw new TextoInvalidoException(
-                    "O texto deve ter no máximo " + TAMANHO_MAXIMO + " caracteres.");
+                    "O texto não pode ultrapassar " + TAMANHO_MAXIMO + " caracteres.");
         }
 
         int fim = Math.min(TAMANHO_RESUMO, texto.length());
