@@ -2,9 +2,121 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assistente de Resumo de Textos Acadêmicos</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 720px;
+            margin: 40px auto;
+            padding: 0 16px;
+            color: #222;
+            line-height: 1.5;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 12px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background-color: #2563eb;
+            color: #fff;
+        }
+
+        button:disabled {
+            background-color: #9db8e8;
+            cursor: not-allowed;
+        }
+
+        .resultado {
+            margin-top: 20px;
+            padding: 12px;
+            border: 1px solid #cfe3cf;
+            background-color: #f1f8f1;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+
+        .erro {
+            margin-top: 20px;
+            padding: 12px;
+            border: 1px solid #e5b3b3;
+            background-color: #fbeaea;
+            border-radius: 4px;
+            color: #b00020;
+            font-weight: bold;
+        }
+
+        [hidden] {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Assistente de Resumo de Textos Acadêmicos</h1>
+
+    <label for="texto">Cole o texto a ser resumido:</label>
+    <textarea id="texto" placeholder="Cole aqui o texto..."></textarea>
+
+    <button id="btnResumir" type="button">Resumir</button>
+
+    <div id="resultado" class="resultado" hidden></div>
+    <div id="erro" class="erro" hidden></div>
+
+    <script>
+        const btn = document.getElementById("btnResumir");
+        const textoEl = document.getElementById("texto");
+        const resultadoEl = document.getElementById("resultado");
+        const erroEl = document.getElementById("erro");
+
+        btn.addEventListener("click", async () => {
+            resultadoEl.hidden = true;
+            resultadoEl.textContent = "";
+            erroEl.hidden = true;
+            erroEl.textContent = "";
+
+            btn.disabled = true;
+            try {
+                const resposta = await fetch("/api/resumo", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ texto: textoEl.value })
+                });
+
+                const dados = await resposta.json();
+
+                if (resposta.ok) {
+                    resultadoEl.textContent = dados.resumo;
+                    resultadoEl.hidden = false;
+                } else {
+                    erroEl.textContent = dados.mensagem || "Erro ao gerar o resumo.";
+                    erroEl.hidden = false;
+                }
+            } catch (e) {
+                erroEl.textContent = "Não foi possível se comunicar com o servidor.";
+                erroEl.hidden = false;
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
