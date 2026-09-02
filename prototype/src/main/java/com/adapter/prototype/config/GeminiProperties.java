@@ -19,6 +19,9 @@ public class GeminiProperties {
     /** URL base dos endpoints de modelos da API do Gemini. */
     private String url;
 
+    /** Nome do modelo do Gemini usado na geração (ex.: {@code gemini-2.5-flash}). */
+    private String model;
+
     public String getKey() {
         return key;
     }
@@ -33,5 +36,13 @@ public class GeminiProperties {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }

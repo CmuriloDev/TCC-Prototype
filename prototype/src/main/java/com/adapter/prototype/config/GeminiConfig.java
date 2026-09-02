@@ -3,27 +3,23 @@ package com.adapter.prototype.config;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Configuração base para o acesso à API do Gemini (Google).
  *
- * <p>Por enquanto apenas expõe o cliente HTTP e as propriedades tipadas. A
- * chamada real à API será implementada na próxima etapa, reaproveitando o
- * {@link RestClient} declarado aqui.
+ * <p>Expõe o cliente HTTP e as propriedades tipadas usadas pela chamada direta
+ * feita dentro do {@code ResumoService}.
  */
 @Configuration
 @EnableConfigurationProperties(GeminiProperties.class)
 public class GeminiConfig {
 
     /**
-     * Cliente HTTP usado para falar com a API do Gemini, já apontado para a
-     * URL base configurada em {@code gemini.api.url}.
+     * Cliente HTTP usado para falar diretamente com a API do Gemini.
      */
     @Bean
-    public RestClient geminiRestClient(GeminiProperties properties) {
-        return RestClient.builder()
-                .baseUrl(properties.getUrl())
-                .build();
+    public RestTemplate geminiRestTemplate() {
+        return new RestTemplate();
     }
 }
