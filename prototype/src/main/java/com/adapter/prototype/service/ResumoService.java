@@ -5,11 +5,18 @@ import com.adapter.prototype.client.GeminiResponse;
 import com.adapter.prototype.config.GeminiProperties;
 import com.adapter.prototype.dto.ResumoRequest;
 import com.adapter.prototype.dto.ResumoResponse;
+import com.adapter.prototype.exception.ProvedorIndisponivelException;
 import com.adapter.prototype.exception.TextoInvalidoException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -59,12 +66,36 @@ public class ResumoService {
         GeminiRequest corpo = new GeminiRequest(PROMPT_BASE + texto);
         HttpEntity<GeminiRequest> requisicao = new HttpEntity<>(corpo, headers);
 
-        GeminiResponse resposta =
-                restTemplate.postForObject(url, requisicao, GeminiResponse.class);
+        GeminiResponse resposta;
+        try {
+            resposta = restTemplate.postForObject(url, requisicao, GeminiResponse.class);
+        } catch (HttpStatusCodeException ex) {
+            throw mapearErroHttp(ex);
+        } catch (ResourceAccessException ex) {
+            throw new ProvedorIndisponivelException(
+                    "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
+        } catch (RestClientException ex) {
+            throw new ProvedorIndisponivelException(
+                    "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
+        }
 
         ResumoResponse response = new ResumoResponse();
         response.setResumo(extrairTextoGerado(resposta));
         return response;
+    }
+
+    /**
+     * Traduz uma resposta HTTP não-2xx do Gemini (ex.: {@link HttpClientErrorException}
+     * ou {@link HttpServerErrorException}) em uma mensagem apropriada ao caso.
+     */
+    private ProvedorIndisponivelException mapearErroHttp(HttpStatusCodeException ex) {
+        if (ex.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+            return new ProvedorIndisponivelException(
+                    "Limite de requisições ao provedor de IA excedido.", ex);
+        }
+
+        return new ProvedorIndisponivelException(
+                "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
     }
 
     private String extrairTextoGerado(GeminiResponse resposta) {
@@ -72,14 +103,14 @@ public class ResumoService {
                 resposta != null ? resposta.getCandidates() : null;
 
         if (candidates == null || candidates.isEmpty()) {
-            throw new IllegalStateException("Resposta da API do Gemini sem candidatos.");
+            throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
         }
 
         GeminiResponse.Content content = candidates.get(0).getContent();
         List<GeminiResponse.Part> parts = content != null ? content.getParts() : null;
 
         if (parts == null || parts.isEmpty() || parts.get(0).getText() == null) {
-            throw new IllegalStateException("Resposta da API do Gemini sem texto gerado.");
+            throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
         }
 
         return parts.get(0).getText();

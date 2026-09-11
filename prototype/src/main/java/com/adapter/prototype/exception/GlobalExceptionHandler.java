@@ -14,4 +14,10 @@ public class GlobalExceptionHandler {
         ErroResponse corpo = new ErroResponse(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpo);
     }
+
+    @ExceptionHandler(ProvedorIndisponivelException.class)
+    public ResponseEntity<ErroResponse> tratarProvedorIndisponivel(ProvedorIndisponivelException ex) {
+        ErroResponse corpo = new ErroResponse(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(corpo);
+    }
 }
