@@ -1,1 +1,7 @@
 .idea/
+
+# Instrucoes locais de mentoria — nao versionar
+CLAUDE.md
+
+# Lockfile de npm criado por engano na raiz (projeto e Maven)
+package-lock.json
