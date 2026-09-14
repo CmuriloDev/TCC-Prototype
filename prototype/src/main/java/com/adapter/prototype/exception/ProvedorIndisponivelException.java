@@ -1,7 +1,7 @@
 package com.adapter.prototype.exception;
 
 /**
- * Representa falhas na comunicação com o provedor de IA (Gemini): timeout,
+ * Representa falhas na comunicação com o provedor de IA (Groq): timeout,
  * indisponibilidade, erro retornado pela API do provedor ou resposta em
  * formato inesperado.
  */

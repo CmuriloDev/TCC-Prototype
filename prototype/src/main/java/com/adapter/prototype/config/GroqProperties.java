@@ -3,23 +3,23 @@ package com.adapter.prototype.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Configurações tipadas de acesso à API do Gemini (Google).
+ * Configurações tipadas de acesso à API do Groq.
  *
- * <p>Os valores são lidos do prefixo {@code gemini.api} em
+ * <p>Os valores são lidos do prefixo {@code groq.api} em
  * {@code application.properties}. A chave de API vem da variável de ambiente
- * {@code GEMINI_API_KEY} e pode ficar em branco enquanto a integração real
+ * {@code GROQ_API_KEY} e pode ficar em branco enquanto a integração real
  * não é implementada — a aplicação continua subindo normalmente.
  */
-@ConfigurationProperties(prefix = "gemini.api")
-public class GeminiProperties {
+@ConfigurationProperties(prefix = "groq.api")
+public class GroqProperties {
 
-    /** Chave de API do Gemini (variável de ambiente {@code GEMINI_API_KEY}). */
+    /** Chave de API do Groq (variável de ambiente {@code GROQ_API_KEY}). */
     private String key;
 
-    /** URL base dos endpoints de modelos da API do Gemini. */
+    /** URL completa do endpoint de chat completions da API do Groq. */
     private String url;
 
-    /** Nome do modelo do Gemini usado na geração (ex.: {@code gemini-3.6-flash}). */
+    /** Nome do modelo do Groq usado na geração (ex.: {@code llama-3.3-70b-versatile}). */
     private String model;
 
     public String getKey() {
