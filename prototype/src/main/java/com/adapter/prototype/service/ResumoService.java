@@ -2,10 +2,14 @@ package com.adapter.prototype.service;
 
 import com.adapter.prototype.client.GeminiRequest;
 import com.adapter.prototype.client.GeminiResponse;
+import com.adapter.prototype.client.GroqRequest;
+import com.adapter.prototype.client.GroqResponse;
 import com.adapter.prototype.config.GeminiProperties;
+import com.adapter.prototype.config.GroqProperties;
 import com.adapter.prototype.dto.ResumoRequest;
 import com.adapter.prototype.dto.ResumoResponse;
 import com.adapter.prototype.exception.ProvedorIndisponivelException;
+import com.adapter.prototype.exception.ProvedorInvalidoException;
 import com.adapter.prototype.exception.TextoInvalidoException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,12 +33,19 @@ public class ResumoService {
     private static final String PROMPT_BASE =
             "Resuma o seguinte texto acadêmico de forma clara e objetiva: ";
 
-    private final RestTemplate restTemplate;
-    private final GeminiProperties geminiProperties;
+    private static final String PROVEDOR_PADRAO = "gemini";
 
-    public ResumoService(RestTemplate geminiRestTemplate, GeminiProperties geminiProperties) {
-        this.restTemplate = geminiRestTemplate;
+    private final RestTemplate geminiRestTemplate;
+    private final GeminiProperties geminiProperties;
+    private final RestTemplate groqRestTemplate;
+    private final GroqProperties groqProperties;
+
+    public ResumoService(RestTemplate geminiRestTemplate, GeminiProperties geminiProperties,
+            RestTemplate groqRestTemplate, GroqProperties groqProperties) {
+        this.geminiRestTemplate = geminiRestTemplate;
         this.geminiProperties = geminiProperties;
+        this.groqRestTemplate = groqRestTemplate;
+        this.groqProperties = groqProperties;
     }
 
     public ResumoResponse gerarResumo(ResumoRequest request) {
@@ -54,8 +65,45 @@ public class ResumoService {
                     "O texto não pode ultrapassar " + TAMANHO_MAXIMO + " caracteres.");
         }
 
-        // Chamada direta e acoplada à API do Gemini, propositalmente sem
-        // camada de abstração intermediária.
+        String provedor = normalizarProvedor(request.getProvedor());
+
+        String textoResumido;
+        // Roteamento direto e acoplado por provedor, propositalmente sem
+        // interface comum entre as chamadas do Gemini e do Groq.
+        switch (provedor) {
+            case "gemini":
+                textoResumido = chamarGemini(texto);
+                break;
+            case "groq":
+                textoResumido = chamarGroq(texto);
+                break;
+            default:
+                // Inatingível: normalizarProvedor já rejeita qualquer outro valor.
+                throw new ProvedorInvalidoException(
+                        "Provedor inválido. Valores aceitos: gemini, groq.");
+        }
+
+        ResumoResponse response = new ResumoResponse();
+        response.setResumo(textoResumido);
+        return response;
+    }
+
+    private String normalizarProvedor(String provedorBruto) {
+        if (provedorBruto == null || provedorBruto.isBlank()) {
+            return PROVEDOR_PADRAO;
+        }
+
+        String provedor = provedorBruto.trim().toLowerCase();
+        if (!provedor.equals("gemini") && !provedor.equals("groq")) {
+            throw new ProvedorInvalidoException("Provedor inválido. Valores aceitos: gemini, groq.");
+        }
+
+        return provedor;
+    }
+
+    // ---- Gemini ----
+
+    private String chamarGemini(String texto) {
         String url = geminiProperties.getUrl() + "/" + geminiProperties.getModel()
                 + ":generateContent";
 
@@ -68,7 +116,7 @@ public class ResumoService {
 
         GeminiResponse resposta;
         try {
-            resposta = restTemplate.postForObject(url, requisicao, GeminiResponse.class);
+            resposta = geminiRestTemplate.postForObject(url, requisicao, GeminiResponse.class);
         } catch (HttpStatusCodeException ex) {
             throw mapearErroHttp(ex);
         } catch (ResourceAccessException ex) {
@@ -79,26 +127,10 @@ public class ResumoService {
                     "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
         }
 
-        ResumoResponse response = new ResumoResponse();
-        response.setResumo(extrairTextoGerado(resposta));
-        return response;
+        return extrairTextoGeradoGemini(resposta);
     }
 
-    /**
-     * Traduz uma resposta HTTP não-2xx do Gemini (ex.: {@link HttpClientErrorException}
-     * ou {@link HttpServerErrorException}) em uma mensagem apropriada ao caso.
-     */
-    private ProvedorIndisponivelException mapearErroHttp(HttpStatusCodeException ex) {
-        if (ex.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
-            return new ProvedorIndisponivelException(
-                    "Limite de requisições ao provedor de IA excedido.", ex);
-        }
-
-        return new ProvedorIndisponivelException(
-                "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
-    }
-
-    private String extrairTextoGerado(GeminiResponse resposta) {
+    private String extrairTextoGeradoGemini(GeminiResponse resposta) {
         List<GeminiResponse.Candidate> candidates =
                 resposta != null ? resposta.getCandidates() : null;
 
@@ -114,5 +146,69 @@ public class ResumoService {
         }
 
         return parts.get(0).getText();
+    }
+
+    // ---- Groq ----
+
+    private String chamarGroq(String texto) {
+        String url = groqProperties.getUrl();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(groqProperties.getKey());
+
+        GroqRequest corpo = new GroqRequest(groqProperties.getModel(), PROMPT_BASE + texto);
+        HttpEntity<GroqRequest> requisicao = new HttpEntity<>(corpo, headers);
+
+        GroqResponse resposta;
+        try {
+            resposta = groqRestTemplate.postForObject(url, requisicao, GroqResponse.class);
+        } catch (HttpStatusCodeException ex) {
+            throw mapearErroHttp(ex);
+        } catch (ResourceAccessException ex) {
+            throw new ProvedorIndisponivelException(
+                    "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
+        } catch (RestClientException ex) {
+            throw new ProvedorIndisponivelException(
+                    "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
+        }
+
+        return extrairTextoGeradoGroq(resposta);
+    }
+
+    private String extrairTextoGeradoGroq(GroqResponse resposta) {
+        List<GroqResponse.Choice> choices = resposta != null ? resposta.getChoices() : null;
+
+        if (choices == null || choices.isEmpty()) {
+            throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
+        }
+
+        GroqResponse.Message message = choices.get(0).getMessage();
+        String conteudo = message != null ? message.getContent() : null;
+
+        if (conteudo == null) {
+            throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
+        }
+
+        return conteudo;
+    }
+
+    // ---- Compartilhado ----
+
+    /**
+     * Traduz uma resposta HTTP não-2xx de qualquer provedor (ex.:
+     * {@link HttpClientErrorException} ou {@link HttpServerErrorException}) em
+     * uma mensagem apropriada ao caso. Reaproveitado entre Gemini e Groq porque
+     * opera apenas sobre tipos genéricos do Spring (exceção e status HTTP),
+     * nunca sobre a estrutura de resposta específica de um provedor.
+     */
+    private ProvedorIndisponivelException mapearErroHttp(HttpStatusCodeException ex) {
+        if (ex.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+            return new ProvedorIndisponivelException(
+                    "Limite de requisições ao provedor de IA excedido.", ex);
+        }
+
+        return new ProvedorIndisponivelException(
+                "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
     }
 }
