@@ -103,7 +103,9 @@ public class ResumoService {
                 "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
     }
 
-    private String extrairTextoGerado(GeminiResponse resposta) {
+    // Visibilidade package-private (em vez de private) especificamente para
+    // permitir teste unitário direto, sem expor a extração como API pública.
+    String extrairTextoGerado(GeminiResponse resposta) {
         GeminiResponse.Response corpoResposta = resposta != null ? resposta.getResponse() : null;
         List<GeminiResponse.Candidate> candidates =
                 corpoResposta != null ? corpoResposta.getCandidates() : null;
