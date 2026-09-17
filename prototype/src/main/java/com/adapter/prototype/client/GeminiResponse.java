@@ -11,14 +11,28 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GeminiResponse {
 
-    private List<Candidate> candidates;
+    private Response response;
 
-    public List<Candidate> getCandidates() {
-        return candidates;
+    public Response getResponse() {
+        return response;
     }
 
-    public void setCandidates(List<Candidate> candidates) {
-        this.candidates = candidates;
+    public void setResponse(Response response) {
+        this.response = response;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Response {
+
+        private List<Candidate> candidates;
+
+        public List<Candidate> getCandidates() {
+            return candidates;
+        }
+
+        public void setCandidates(List<Candidate> candidates) {
+            this.candidates = candidates;
+        }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
