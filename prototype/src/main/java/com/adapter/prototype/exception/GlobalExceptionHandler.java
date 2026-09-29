@@ -1,6 +1,7 @@
 package com.adapter.prototype.exception;
 
 import com.adapter.prototype.dto.ErroResponse;
+import com.adapter.prototype.provider.ProvedorIndisponivelException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,5 +14,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErroResponse> tratarTextoInvalido(TextoInvalidoException ex) {
         ErroResponse corpo = new ErroResponse(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpo);
+    }
+
+    @ExceptionHandler(ProvedorIndisponivelException.class)
+    public ResponseEntity<ErroResponse> tratarProvedorIndisponivel(ProvedorIndisponivelException ex) {
+        ErroResponse corpo = new ErroResponse(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(corpo);
     }
 }

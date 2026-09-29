@@ -11,6 +11,8 @@ public class ResumoService {
 
     private static final int TAMANHO_MINIMO = 50;
     private static final int TAMANHO_MAXIMO = 5000;
+    private static final String PROMPT_BASE =
+            "Resuma o seguinte texto acadêmico de forma clara e objetiva: ";
 
     private final AiSummarizerClient aiSummarizerClient;
 
@@ -35,7 +37,7 @@ public class ResumoService {
                     "O texto não pode ultrapassar " + TAMANHO_MAXIMO + " caracteres.");
         }
 
-        String resumo = aiSummarizerClient.gerarResumo(texto);
+        String resumo = aiSummarizerClient.gerarResumo(PROMPT_BASE + texto);
 
         ResumoResponse response = new ResumoResponse();
         response.setResumo(resumo);

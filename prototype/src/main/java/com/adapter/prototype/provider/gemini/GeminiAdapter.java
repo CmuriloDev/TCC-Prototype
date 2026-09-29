@@ -25,9 +25,6 @@ import java.util.List;
 @Component
 public class GeminiAdapter implements AiSummarizerClient {
 
-    private static final String PROMPT_BASE =
-            "Resuma o seguinte texto acadêmico de forma clara e objetiva: ";
-
     private final RestTemplate restTemplate;
     private final GeminiProperties geminiProperties;
 
@@ -46,7 +43,7 @@ public class GeminiAdapter implements AiSummarizerClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("x-goog-api-key", geminiProperties.getKey());
 
-        GeminiRequest corpo = new GeminiRequest(PROMPT_BASE + texto);
+        GeminiRequest corpo = new GeminiRequest(texto);
         HttpEntity<GeminiRequest> requisicao = new HttpEntity<>(corpo, headers);
 
         GeminiResponse resposta;
