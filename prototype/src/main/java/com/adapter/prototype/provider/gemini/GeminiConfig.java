@@ -1,0 +1,41 @@
+package com.adapter.prototype.provider.gemini;
+
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.http.HttpClient;
+import java.time.Duration;
+
+/**
+ * Configuração base para o acesso à API do Gemini (Google).
+ *
+ * <p>Expõe o cliente HTTP e as propriedades tipadas usadas pelo
+ * {@link GeminiAdapter} para se comunicar com a API do Gemini (Adaptee).
+ */
+@Configuration
+@EnableConfigurationProperties(GeminiProperties.class)
+public class GeminiConfig {
+
+    private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(10);
+    private static final Duration READ_TIMEOUT = Duration.ofSeconds(15);
+
+    /**
+     * Cliente HTTP usado para falar diretamente com a API do Gemini, com
+     * timeouts explícitos para evitar que a aplicação fique travada
+     * indefinidamente caso o Gemini não responda.
+     */
+    @Bean
+    public RestTemplate geminiRestTemplate() {
+        HttpClient httpClient = HttpClient.newBuilder()
+                .connectTimeout(CONNECT_TIMEOUT)
+                .build();
+
+        JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
+        requestFactory.setReadTimeout(READ_TIMEOUT);
+
+        return new RestTemplate(requestFactory);
+    }
+}
