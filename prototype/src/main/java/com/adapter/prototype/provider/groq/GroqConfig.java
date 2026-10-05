@@ -1,4 +1,4 @@
-package com.adapter.prototype.provider.gemini;
+package com.adapter.prototype.provider.groq;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -10,25 +10,25 @@ import java.net.http.HttpClient;
 import java.time.Duration;
 
 /**
- * Configuração base para o acesso à API do Gemini (Google).
+ * Configuração base para o acesso à API do Groq.
  *
  * <p>Expõe o cliente HTTP e as propriedades tipadas usadas pelo
- * {@link GeminiAdapter} para se comunicar com a API do Gemini (Adaptee).
+ * {@link GroqAdapter} para se comunicar com a API do Groq (Adaptee).
  */
 @Configuration
-@EnableConfigurationProperties(GeminiProperties.class)
-public class GeminiConfig {
+@EnableConfigurationProperties(GroqProperties.class)
+public class GroqConfig {
 
     private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(10);
     private static final Duration READ_TIMEOUT = Duration.ofSeconds(15);
 
     /**
-     * Cliente HTTP usado para falar diretamente com a API do Gemini, com
+     * Cliente HTTP usado para falar diretamente com a API do Groq, com
      * timeouts explícitos para evitar que a aplicação fique travada
-     * indefinidamente caso o Gemini não responda.
+     * indefinidamente caso o Groq não responda.
      */
     @Bean
-    public RestTemplate geminiRestTemplate() {
+    public RestTemplate groqRestTemplate() {
         HttpClient httpClient = HttpClient.newBuilder()
                 .connectTimeout(CONNECT_TIMEOUT)
                 .build();
