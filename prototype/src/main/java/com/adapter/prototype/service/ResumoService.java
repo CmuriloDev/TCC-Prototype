@@ -2,9 +2,14 @@ package com.adapter.prototype.service;
 
 import com.adapter.prototype.dto.ResumoRequest;
 import com.adapter.prototype.dto.ResumoResponse;
+import com.adapter.prototype.exception.ProvedorInvalidoException;
 import com.adapter.prototype.exception.TextoInvalidoException;
 import com.adapter.prototype.provider.AiSummarizerClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.TreeSet;
 
 @Service
 public class ResumoService {
@@ -14,10 +19,14 @@ public class ResumoService {
     private static final String PROMPT_BASE =
             "Resuma o seguinte texto acadêmico de forma clara e objetiva: ";
 
-    private final AiSummarizerClient aiSummarizerClient;
+    /** Implementações do Target indexadas pelo nome do bean de cada Adapter. */
+    private final Map<String, AiSummarizerClient> clientes;
+    private final String provedorPadrao;
 
-    public ResumoService(AiSummarizerClient aiSummarizerClient) {
-        this.aiSummarizerClient = aiSummarizerClient;
+    public ResumoService(Map<String, AiSummarizerClient> clientes,
+                         @Value("${ai.provider.default}") String provedorPadrao) {
+        this.clientes = clientes;
+        this.provedorPadrao = provedorPadrao;
     }
 
     public ResumoResponse gerarResumo(ResumoRequest request) {
@@ -37,10 +46,25 @@ public class ResumoService {
                     "O texto não pode ultrapassar " + TAMANHO_MAXIMO + " caracteres.");
         }
 
-        String resumo = aiSummarizerClient.gerarResumo(PROMPT_BASE + texto);
+        AiSummarizerClient cliente = selecionarCliente(request.getProvedor());
+        String resumo = cliente.gerarResumo(PROMPT_BASE + texto);
 
         ResumoResponse response = new ResumoResponse();
         response.setResumo(resumo);
         return response;
+    }
+
+    private AiSummarizerClient selecionarCliente(String provedor) {
+        String nome = (provedor == null || provedor.isBlank())
+                ? provedorPadrao
+                : provedor.trim().toLowerCase();
+
+        AiSummarizerClient cliente = clientes.get(nome);
+        if (cliente == null) {
+            throw new ProvedorInvalidoException(
+                    "Provedor inválido. Valores aceitos: "
+                            + String.join(", ", new TreeSet<>(clientes.keySet())) + ".");
+        }
+        return cliente;
     }
 }

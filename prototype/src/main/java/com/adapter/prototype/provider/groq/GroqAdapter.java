@@ -1,4 +1,4 @@
-package com.adapter.prototype.provider.gemini;
+package com.adapter.prototype.provider.groq;
 
 import com.adapter.prototype.provider.AiSummarizerClient;
 import com.adapter.prototype.provider.ProvedorIndisponivelException;
@@ -19,36 +19,33 @@ import java.util.List;
 
 /**
  * Adapter do padrão Adapter: implementa o Target ({@link AiSummarizerClient})
- * traduzindo a chamada genérica para o formato específico da API do Gemini
+ * traduzindo a chamada genérica para o formato específico da API do Groq
  * (Adaptee) e convertendo a resposta de volta em texto puro.
  */
-@Component("gemini")
-public class GeminiAdapter implements AiSummarizerClient {
+@Component("groq")
+public class GroqAdapter implements AiSummarizerClient {
 
     private final RestTemplate restTemplate;
-    private final GeminiProperties geminiProperties;
+    private final GroqProperties groqProperties;
 
-    public GeminiAdapter(@Qualifier("geminiRestTemplate") RestTemplate restTemplate,
-                         GeminiProperties geminiProperties) {
+    public GroqAdapter(@Qualifier("groqRestTemplate") RestTemplate restTemplate,
+                       GroqProperties groqProperties) {
         this.restTemplate = restTemplate;
-        this.geminiProperties = geminiProperties;
+        this.groqProperties = groqProperties;
     }
 
     @Override
     public String gerarResumo(String texto) throws ProvedorIndisponivelException {
-        String url = geminiProperties.getUrl() + "/" + geminiProperties.getModel()
-                + ":generateContent";
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("x-goog-api-key", geminiProperties.getKey());
+        headers.setBearerAuth(groqProperties.getKey());
 
-        GeminiRequest corpo = new GeminiRequest(texto);
-        HttpEntity<GeminiRequest> requisicao = new HttpEntity<>(corpo, headers);
+        GroqRequest corpo = new GroqRequest(groqProperties.getModel(), texto);
+        HttpEntity<GroqRequest> requisicao = new HttpEntity<>(corpo, headers);
 
-        GeminiResponse resposta;
+        GroqResponse resposta;
         try {
-            resposta = restTemplate.postForObject(url, requisicao, GeminiResponse.class);
+            resposta = restTemplate.postForObject(groqProperties.getUrl(), requisicao, GroqResponse.class);
         } catch (HttpStatusCodeException ex) {
             throw mapearErroHttp(ex);
         } catch (ResourceAccessException ex) {
@@ -63,7 +60,7 @@ public class GeminiAdapter implements AiSummarizerClient {
     }
 
     /**
-     * Traduz uma resposta HTTP não-2xx do Gemini (ex.: {@link HttpClientErrorException}
+     * Traduz uma resposta HTTP não-2xx do Groq (ex.: {@link HttpClientErrorException}
      * ou {@link HttpServerErrorException}) em uma mensagem apropriada ao caso.
      */
     private ProvedorIndisponivelException mapearErroHttp(HttpStatusCodeException ex) {
@@ -76,21 +73,19 @@ public class GeminiAdapter implements AiSummarizerClient {
                 "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
     }
 
-    private String extrairTextoGerado(GeminiResponse resposta) {
-        List<GeminiResponse.Candidate> candidates =
-                resposta != null ? resposta.getCandidates() : null;
+    private String extrairTextoGerado(GroqResponse resposta) {
+        List<GroqResponse.Choice> choices = resposta != null ? resposta.getChoices() : null;
 
-        if (candidates == null || candidates.isEmpty()) {
+        if (choices == null || choices.isEmpty()) {
             throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
         }
 
-        GeminiResponse.Content content = candidates.get(0).getContent();
-        List<GeminiResponse.Part> parts = content != null ? content.getParts() : null;
+        GroqResponse.Message message = choices.get(0).getMessage();
 
-        if (parts == null || parts.isEmpty() || parts.get(0).getText() == null) {
+        if (message == null || message.getContent() == null) {
             throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
         }
 
-        return parts.get(0).getText();
+        return message.getContent();
     }
 }

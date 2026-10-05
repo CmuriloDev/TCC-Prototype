@@ -21,4 +21,10 @@ public class GlobalExceptionHandler {
         ErroResponse corpo = new ErroResponse(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(corpo);
     }
+
+    @ExceptionHandler(ProvedorInvalidoException.class)
+    public ResponseEntity<ErroResponse> tratarProvedorInvalido(ProvedorInvalidoException ex) {
+        ErroResponse corpo = new ErroResponse(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpo);
+    }
 }
