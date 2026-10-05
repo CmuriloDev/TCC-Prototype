@@ -16,6 +16,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Adapter do padrão Adapter: implementa o Target ({@link AiSummarizerClient})
@@ -24,6 +26,9 @@ import java.util.List;
  */
 @Component
 public class GeminiAdapter implements AiSummarizerClient {
+
+    private static final String RESPONSE_MIME_TYPE = "text/plain";
+    private static final double TEMPERATURE = 0.7;
 
     private final RestTemplate restTemplate;
     private final GeminiProperties geminiProperties;
@@ -44,6 +49,7 @@ public class GeminiAdapter implements AiSummarizerClient {
         headers.set("x-goog-api-key", geminiProperties.getKey());
 
         GeminiRequest corpo = new GeminiRequest(texto);
+        corpo.setGenerationConfig(new GeminiRequest.GenerationConfig(RESPONSE_MIME_TYPE, TEMPERATURE));
         HttpEntity<GeminiRequest> requisicao = new HttpEntity<>(corpo, headers);
 
         GeminiResponse resposta;
@@ -76,9 +82,12 @@ public class GeminiAdapter implements AiSummarizerClient {
                 "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
     }
 
-    private String extrairTextoGerado(GeminiResponse resposta) {
+    // Visibilidade package-private (em vez de private) especificamente para
+    // permitir teste unitário direto, sem expor a extração como API pública.
+    String extrairTextoGerado(GeminiResponse resposta) {
+        GeminiResponse.Response corpoResposta = resposta != null ? resposta.getResponse() : null;
         List<GeminiResponse.Candidate> candidates =
-                resposta != null ? resposta.getCandidates() : null;
+                corpoResposta != null ? corpoResposta.getCandidates() : null;
 
         if (candidates == null || candidates.isEmpty()) {
             throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
@@ -87,10 +96,19 @@ public class GeminiAdapter implements AiSummarizerClient {
         GeminiResponse.Content content = candidates.get(0).getContent();
         List<GeminiResponse.Part> parts = content != null ? content.getParts() : null;
 
-        if (parts == null || parts.isEmpty() || parts.get(0).getText() == null) {
+        if (parts == null || parts.isEmpty()) {
             throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
         }
 
-        return parts.get(0).getText();
+        String textoGerado = parts.stream()
+                .map(GeminiResponse.Part::getText)
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining());
+
+        if (textoGerado.isBlank()) {
+            throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
+        }
+
+        return textoGerado;
     }
 }

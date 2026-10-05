@@ -13,6 +13,7 @@ import java.util.List;
 class GeminiRequest {
 
     private List<Content> contents;
+    private GenerationConfig generationConfig;
 
     public GeminiRequest() {
     }
@@ -38,6 +39,14 @@ class GeminiRequest {
         this.contents = contents;
     }
 
+    public GenerationConfig getGenerationConfig() {
+        return generationConfig;
+    }
+
+    public void setGenerationConfig(GenerationConfig generationConfig) {
+        this.generationConfig = generationConfig;
+    }
+
     public static class Content {
 
         private List<Part> parts;
@@ -61,6 +70,36 @@ class GeminiRequest {
 
         public void setText(String text) {
             this.text = text;
+        }
+    }
+
+    public static class GenerationConfig {
+
+        private String responseMimeType;
+        private double temperature;
+
+        public GenerationConfig() {
+        }
+
+        public GenerationConfig(String responseMimeType, double temperature) {
+            this.responseMimeType = responseMimeType;
+            this.temperature = temperature;
+        }
+
+        public String getResponseMimeType() {
+            return responseMimeType;
+        }
+
+        public void setResponseMimeType(String responseMimeType) {
+            this.responseMimeType = responseMimeType;
+        }
+
+        public double getTemperature() {
+            return temperature;
+        }
+
+        public void setTemperature(double temperature) {
+            this.temperature = temperature;
         }
     }
 }
