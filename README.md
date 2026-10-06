@@ -278,4 +278,4 @@ This project is released for academic and portfolio purposes. Feel free to explo
 
 **Carlos Murilo**
 Software Engineering student · Backend & Full-stack Developer
-[GitHub](https://github.com/CmuriloDev) · [LinkedIn](#)
+[GitHub](https://github.com/CmuriloDev) · [LinkedIn](https://www.linkedin.com/in/carlos-murilo-dev/)
