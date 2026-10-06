@@ -211,6 +211,21 @@ For each scenario, on each version, the following metrics are collected via Git:
 
 Full methodology, validity threats, and results are documented in the accompanying thesis (see `/docs` in the [main TCC repository], or the published article once available).
 
+### Experiment tags
+
+Each scenario is applied on top of its version's baseline, tagged, and then reverted, so every scenario is measured independently with `git diff <baseline> <tag>`. Both branches are kept at their baseline; the scenario states live only in the tags below.
+
+| Tag | Scenario | Version | Commit |
+|---|---|---|---|
+| `baseline-acoplada` | Baseline (Gemini only) | Coupled | `295d660` |
+| `cenario-1-acoplada` | 1 — Provider replacement (Gemini → Groq) | Coupled | `bc0cf1c` |
+| `cenario-2-acoplada` | 2 — New provider addition (Gemini + Groq) | Coupled | `cf372e9` |
+| `cenario-3-acoplada` | 3 — Communication format change (simulated Gemini schema) | Coupled | `a648c39` |
+| `baseline-desacoplada` | Baseline (Gemini only, behind the Adapter) | Decoupled | `497ed71` |
+| `cenario-1-desacoplada` | 1 — Provider replacement (Gemini → Groq) | Decoupled | `86dc06d` |
+| `cenario-2-desacoplada` | 2 — New provider addition (Gemini + Groq) | Decoupled | `d784cc8` |
+| `cenario-3-desacoplada` | 3 — Communication format change (simulated Gemini schema) | Decoupled | `ea76236` |
+
 ---
 
 ## Project Status
@@ -218,10 +233,10 @@ Full methodology, validity threats, and results are documented in the accompanyi
 - [x] Baseline application (UI + validation, no AI integration)
 - [x] Coupled version — direct Gemini integration
 - [x] Coupled version — error handling for provider failures
-- [ ] Coupled version — change scenarios applied & metrics collected
-- [ ] Decoupled version — Adapter-based implementation
-- [ ] Decoupled version — change scenarios applied & metrics collected
-- [ ] Comparative results consolidated
+- [x] Coupled version — change scenarios applied & metrics collected
+- [x] Decoupled version — Adapter-based implementation
+- [x] Decoupled version — change scenarios applied & metrics collected
+- [x] Comparative results consolidated
 
 This is a research artifact under active development as part of an ongoing thesis; the checklist above is kept up to date as each experimental stage is completed.
 
