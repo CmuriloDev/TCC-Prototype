@@ -1,0 +1,90 @@
+# Validação de equivalência funcional — saída bruta
+# Data: 2026-10-26T09:49:30-03:00
+# git version 2.55.0.windows.5
+# Java: openjdk version "17.0.20.1" 2026-08-18
+# Porta: 8081 | repetições máx. em falha transitória: 3 (intervalo 5s)
+# Texto válido: 485 caracteres | curto: 32 | longo: 5100
+# Colunas: estado | caso | tentativa | status_http | duracao_s | esperado | veredito | corpo (resumo truncado em 80 caracteres)
+## estado=baseline-acoplada commit=295d660
+baseline-acoplada | C1 | 1 | 502 | 15.096338 | 200 | DIVERGENTE | resumo=
+baseline-acoplada | C1 | 2 | 502 | 15.004986 | 200 | DIVERGENTE | resumo=
+baseline-acoplada | C1 | 3 | 502 | 2.895915 | 200 | DIVERGENTE | resumo=
+baseline-acoplada | C1 | 4 | 502 | 0.890405 | 200 | DIVERGENTE | resumo=
+baseline-acoplada | C2 | 1 | 400 | 0.003538 | 400 | OK | mensagem=O texto não pode estar vazio.
+baseline-acoplada | C3 | 1 | 400 | 0.004002 | 400 | OK | mensagem=O texto deve ter no mínimo 50 caracteres.
+baseline-acoplada | C4 | 1 | 400 | 0.003351 | 400 | OK | mensagem=O texto não pode ultrapassar 5000 caracteres.
+baseline-acoplada | C5-gemini | 1 | 502 | 0.689052 | 502 | OK | mensagem=O serviço de IA está indisponível no momento. Tente novamente em instantes.
+## estado=cenario-1-acoplada commit=bc0cf1c
+cenario-1-acoplada | C1 | 1 | 200 | 1.143350 | 200 | OK | resumo=A arquitetura de software afeta a manutenibilidade de sistemas que usam serviços
+cenario-1-acoplada | C2 | 1 | 400 | 0.006252 | 400 | OK | mensagem=O texto não pode estar vazio.
+cenario-1-acoplada | C3 | 1 | 400 | 0.003676 | 400 | OK | mensagem=O texto deve ter no mínimo 50 caracteres.
+cenario-1-acoplada | C4 | 1 | 400 | 0.003340 | 400 | OK | mensagem=O texto não pode ultrapassar 5000 caracteres.
+cenario-1-acoplada | C5-groq | 1 | 502 | 0.494227 | 502 | OK | mensagem=O serviço de IA está indisponível no momento. Tente novamente em instantes.
+## estado=cenario-2-acoplada commit=cf372e9
+cenario-2-acoplada | C1 | 1 | 502 | 15.111489 | 200 | DIVERGENTE | resumo=
+cenario-2-acoplada | C1 | 2 | 502 | 15.006495 | 200 | DIVERGENTE | resumo=
+cenario-2-acoplada | C1 | 3 | 502 | 15.005572 | 200 | DIVERGENTE | resumo=
+cenario-2-acoplada | C1 | 4 | 502 | 15.005980 | 200 | DIVERGENTE | resumo=
+cenario-2-acoplada | C2 | 1 | 400 | 0.003186 | 400 | OK | mensagem=O texto não pode estar vazio.
+cenario-2-acoplada | C3 | 1 | 400 | 0.002995 | 400 | OK | mensagem=O texto deve ter no mínimo 50 caracteres.
+cenario-2-acoplada | C4 | 1 | 400 | 0.003444 | 400 | OK | mensagem=O texto não pode ultrapassar 5000 caracteres.
+cenario-2-acoplada | C6 | 1 | 200 | 0.974172 | 200 | OK | resumo=**Resumo:**  \nA arquitetura de software impacta a manutenibilidade de sistemas 
+cenario-2-acoplada | C7 | 1 | 200 | 0.697511 | 200 | OK | resumo=A arquitetura de software afeta a manutenibilidade de sistemas que utilizam serv
+cenario-2-acoplada | C8 | 1 | 502 | 15.006217 | 200 | DIVERGENTE | resumo=
+cenario-2-acoplada | C8 | 2 | 502 | 15.004920 | 200 | DIVERGENTE | resumo=
+cenario-2-acoplada | C8 | 3 | 502 | 15.006076 | 200 | DIVERGENTE | resumo=
+cenario-2-acoplada | C8 | 4 | 502 | 5.996493 | 200 | DIVERGENTE | resumo=
+cenario-2-acoplada | C9 | 1 | 400 | 0.003527 | 400 | OK | mensagem=Provedor inválido. Valores aceitos: gemini, groq.
+cenario-2-acoplada | C10 | 1 | 200 | 7.265784 | 200 | OK | resumo=**Resumo:**\n\nIntegrar serviços de inteligência artificial diretamente às regra
+cenario-2-acoplada | C5-gemini | 1 | 502 | 0.713492 | 502 | OK | mensagem=O serviço de IA está indisponível no momento. Tente novamente em instantes.
+cenario-2-acoplada | C5-groq | 1 | 502 | 0.525039 | 502 | OK | mensagem=O serviço de IA está indisponível no momento. Tente novamente em instantes.
+## estado=baseline-desacoplada commit=497ed71
+baseline-desacoplada | C1 | 1 | 502 | 15.106001 | 200 | DIVERGENTE | resumo=
+baseline-desacoplada | C1 | 2 | 200 | 8.256095 | 200 | OK | resumo=Aqui está um resumo claro e objetivo do texto:\n\nO acoplamento direto entre sis
+baseline-desacoplada | C2 | 1 | 400 | 0.003805 | 400 | OK | mensagem=O texto não pode estar vazio.
+baseline-desacoplada | C3 | 1 | 400 | 0.003841 | 400 | OK | mensagem=O texto deve ter no mínimo 50 caracteres.
+baseline-desacoplada | C4 | 1 | 400 | 0.004847 | 400 | OK | mensagem=O texto não pode ultrapassar 5000 caracteres.
+baseline-desacoplada | C5-gemini | 1 | 502 | 1.197672 | 502 | OK | mensagem=O serviço de IA está indisponível no momento. Tente novamente em instantes.
+## estado=cenario-1-desacoplada commit=86dc06d
+cenario-1-desacoplada | C1 | 1 | 200 | 1.152731 | 200 | OK | resumo=A arquitetura de software afeta a manutenibilidade de sistemas que usam serviços
+cenario-1-desacoplada | C2 | 1 | 400 | 0.007453 | 400 | OK | mensagem=O texto não pode estar vazio.
+cenario-1-desacoplada | C3 | 1 | 400 | 0.004044 | 400 | OK | mensagem=O texto deve ter no mínimo 50 caracteres.
+cenario-1-desacoplada | C4 | 1 | 400 | 0.004478 | 400 | OK | mensagem=O texto não pode ultrapassar 5000 caracteres.
+cenario-1-desacoplada | C5-groq | 1 | 502 | 0.502926 | 502 | OK | mensagem=O serviço de IA está indisponível no momento. Tente novamente em instantes.
+## estado=cenario-2-desacoplada commit=d784cc8
+cenario-2-desacoplada | C1 | 1 | 200 | 6.167077 | 200 | OK | resumo=**Resumo:**\n\nO acoplamento direto com provedores de inteligência artificial di
+cenario-2-desacoplada | C2 | 1 | 400 | 0.006219 | 400 | OK | mensagem=O texto não pode estar vazio.
+cenario-2-desacoplada | C3 | 1 | 400 | 0.003394 | 400 | OK | mensagem=O texto deve ter no mínimo 50 caracteres.
+cenario-2-desacoplada | C4 | 1 | 400 | 0.003328 | 400 | OK | mensagem=O texto não pode ultrapassar 5000 caracteres.
+cenario-2-desacoplada | C6 | 1 | 200 | 0.902192 | 200 | OK | resumo=**Resumo**\n\nA forma como o software é arquitetado afeta diretamente sua capaci
+cenario-2-desacoplada | C7 | 1 | 200 | 0.719949 | 200 | OK | resumo=A forma como o software é estruturado afeta sua capacidade de manutenção, sobret
+cenario-2-desacoplada | C8 | 1 | 502 | 15.006895 | 200 | DIVERGENTE | resumo=
+cenario-2-desacoplada | C8 | 2 | 502 | 15.004775 | 200 | DIVERGENTE | resumo=
+cenario-2-desacoplada | C8 | 3 | 502 | 15.005414 | 200 | DIVERGENTE | resumo=
+cenario-2-desacoplada | C8 | 4 | 502 | 15.004591 | 200 | DIVERGENTE | resumo=
+cenario-2-desacoplada | C9 | 1 | 400 | 0.003607 | 400 | OK | mensagem=Provedor inválido. Valores aceitos: gemini, groq.
+cenario-2-desacoplada | C10 | 1 | 502 | 0.309118 | 200 | DIVERGENTE | resumo=
+cenario-2-desacoplada | C10 | 2 | 502 | 0.303290 | 200 | DIVERGENTE | resumo=
+cenario-2-desacoplada | C10 | 3 | 200 | 10.214832 | 200 | OK | resumo=Aqui está um resumo claro e objetivo do texto:\n\nA integração acoplada com prov
+cenario-2-desacoplada | C5-gemini | 1 | 502 | 0.677563 | 502 | OK | mensagem=O serviço de IA está indisponível no momento. Tente novamente em instantes.
+cenario-2-desacoplada | C5-groq | 1 | 502 | 0.649053 | 502 | OK | mensagem=O serviço de IA está indisponível no momento. Tente novamente em instantes.
+## estado=cenario-3-acoplada commit=a648c39
+mvnw -q test: exit=0
+suite com.adapter.prototype.PrototypeApplicationTests tests=1 tests="1" errors="0" skipped="0" failures="0" 
+  caso: "contextLoads"
+suite com.adapter.prototype.service.ResumoServiceExtracaoGeminiTest tests=5 tests="5" errors="0" skipped="0" failures="0" 
+  caso: "deveLancarErroQuandoResponseEstaAusente"
+  caso: "deveConcatenarTextoQuandoResponseTemMultiplasParts"
+  caso: "deveLancarErroQuandoTextoConcatenadoEstaEmBranco"
+  caso: "deveLancarErroQuandoPartsEstaVazia"
+  caso: "deveRetornarTextoQuandoResponseTemUmaUnicaPart"
+## estado=cenario-3-desacoplada commit=ea76236
+mvnw -q test: exit=0
+suite com.adapter.prototype.PrototypeApplicationTests tests=1 tests="1" errors="0" skipped="0" failures="0" 
+  caso: "contextLoads"
+suite com.adapter.prototype.provider.gemini.GeminiAdapterExtracaoTest tests=5 tests="5" errors="0" skipped="0" failures="0" 
+  caso: "deveLancarErroQuandoResponseEstaAusente"
+  caso: "deveConcatenarTextoQuandoResponseTemMultiplasParts"
+  caso: "deveLancarErroQuandoTextoConcatenadoEstaEmBranco"
+  caso: "deveLancarErroQuandoPartsEstaVazia"
+  caso: "deveRetornarTextoQuandoResponseTemUmaUnicaPart"

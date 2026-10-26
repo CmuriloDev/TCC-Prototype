@@ -1,0 +1,178 @@
+# Data: 2026-10-26T09:57:33-03:00
+# git version 2.55.0.windows.5 | commit atual: 295d660
+# Maven (wrapper do projeto): 3.9.16 | Java: openjdk version "17.0.20.1" 2026-08-18 (nao usados nesta medicao)
+
+################ 295d660 -> cenario-1-acoplada (bc0cf1c)
+--- EXCLUIDOS (fora de prototype/):
+--- MODO --no-renames
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/client/GeminiRequest.java | D | 0 | 63 | P |
+| src/main/java/com/adapter/prototype/client/GeminiResponse.java | D | 0 | 65 | P |
+| src/main/java/com/adapter/prototype/client/GroqRequest.java | A | 68 | 0 | P |
+| src/main/java/com/adapter/prototype/client/GroqResponse.java | A | 52 | 0 | P |
+| src/main/java/com/adapter/prototype/config/GeminiConfig.java | D | 0 | 41 | P |
+| src/main/java/com/adapter/prototype/config/GeminiProperties.java | D | 0 | 48 | P |
+| src/main/java/com/adapter/prototype/config/GroqConfig.java | A | 41 | 0 | P |
+| src/main/java/com/adapter/prototype/config/GroqProperties.java | A | 48 | 0 | P |
+| src/main/java/com/adapter/prototype/exception/ProvedorIndisponivelException.java | M | 1 | 1 | Oc |
+| src/main/java/com/adapter/prototype/service/ResumoService.java | M | 20 | 25 | Oc |
+| src/main/resources/application.properties | M | 5 | 5 | Of |
+
+TOTAIS|P 8 arq / 426 lin|T 0 arq / 0 lin|O 3 arq / 57 lin (codigo 2 / 47, config 1 / 10)|GERAL 11 arq / 483 lin
+--- MODO padrao (deteccao de renomeacao)
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/client/GeminiRequest.java | D | 0 | 63 | P |
+| src/main/java/com/adapter/prototype/client/GeminiResponse.java | D | 0 | 65 | P |
+| src/main/java/com/adapter/prototype/client/GroqRequest.java | A | 68 | 0 | P |
+| src/main/java/com/adapter/prototype/client/GroqResponse.java | A | 52 | 0 | P |
+| src/main/java/com/adapter/prototype/config/GeminiConfig.java → src/main/java/com/adapter/prototype/config/GroqConfig.java | R078 | 6 | 6 | P |
+| src/main/java/com/adapter/prototype/config/GeminiProperties.java → src/main/java/com/adapter/prototype/config/GroqProperties.java | R058 | 8 | 8 | P |
+| src/main/java/com/adapter/prototype/exception/ProvedorIndisponivelException.java | M | 1 | 1 | Oc |
+| src/main/java/com/adapter/prototype/service/ResumoService.java | M | 20 | 25 | Oc |
+| src/main/resources/application.properties | M | 5 | 5 | Of |
+
+TOTAIS|P 6 arq / 276 lin|T 0 arq / 0 lin|O 3 arq / 57 lin (codigo 2 / 47, config 1 / 10)|GERAL 9 arq / 333 lin
+
+################ 295d660 -> cenario-2-acoplada (cf372e9)
+--- EXCLUIDOS (fora de prototype/):
+--- MODO --no-renames
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/client/GroqRequest.java | A | 67 | 0 | P |
+| src/main/java/com/adapter/prototype/client/GroqResponse.java | A | 51 | 0 | P |
+| src/main/java/com/adapter/prototype/config/GroqConfig.java | A | 41 | 0 | P |
+| src/main/java/com/adapter/prototype/config/GroqProperties.java | A | 48 | 0 | P |
+| src/main/java/com/adapter/prototype/dto/ResumoRequest.java | M | 11 | 0 | Oc |
+| src/main/java/com/adapter/prototype/exception/GlobalExceptionHandler.java | M | 6 | 0 | Oc |
+| src/main/java/com/adapter/prototype/exception/ProvedorInvalidoException.java | A | 12 | 0 | Oc |
+| src/main/java/com/adapter/prototype/service/ResumoService.java | M | 120 | 24 | Oc |
+| src/main/resources/application.properties | M | 8 | 0 | Of |
+
+TOTAIS|P 4 arq / 207 lin|T 0 arq / 0 lin|O 5 arq / 181 lin (codigo 4 / 173, config 1 / 8)|GERAL 9 arq / 388 lin
+--- MODO padrao (deteccao de renomeacao)
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/client/GroqRequest.java | A | 67 | 0 | P |
+| src/main/java/com/adapter/prototype/client/GroqResponse.java | A | 51 | 0 | P |
+| src/main/java/com/adapter/prototype/config/GroqConfig.java | A | 41 | 0 | P |
+| src/main/java/com/adapter/prototype/config/GroqProperties.java | A | 48 | 0 | P |
+| src/main/java/com/adapter/prototype/dto/ResumoRequest.java | M | 11 | 0 | Oc |
+| src/main/java/com/adapter/prototype/exception/GlobalExceptionHandler.java | M | 6 | 0 | Oc |
+| src/main/java/com/adapter/prototype/exception/ProvedorInvalidoException.java | A | 12 | 0 | Oc |
+| src/main/java/com/adapter/prototype/service/ResumoService.java | M | 120 | 24 | Oc |
+| src/main/resources/application.properties | M | 8 | 0 | Of |
+
+TOTAIS|P 4 arq / 207 lin|T 0 arq / 0 lin|O 5 arq / 181 lin (codigo 4 / 173, config 1 / 8)|GERAL 9 arq / 388 lin
+
+################ 295d660 -> cenario-3-acoplada (a648c39)
+--- EXCLUIDOS (fora de prototype/):
+A	METRICAS.md
+--- MODO --no-renames
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/client/GeminiRequest.java | M | 39 | 0 | P |
+| src/main/java/com/adapter/prototype/client/GeminiResponse.java | M | 19 | 5 | P |
+| src/main/java/com/adapter/prototype/service/ResumoService.java | M | 21 | 4 | Oc |
+| src/test/java/com/adapter/prototype/service/ResumoServiceExtracaoGeminiTest.java | A | 147 | 0 | T |
+
+TOTAIS|P 2 arq / 63 lin|T 1 arq / 147 lin|O 1 arq / 25 lin (codigo 1 / 25, config 0 / 0)|GERAL 4 arq / 235 lin
+--- MODO padrao (deteccao de renomeacao)
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/client/GeminiRequest.java | M | 39 | 0 | P |
+| src/main/java/com/adapter/prototype/client/GeminiResponse.java | M | 19 | 5 | P |
+| src/main/java/com/adapter/prototype/service/ResumoService.java | M | 21 | 4 | Oc |
+| src/test/java/com/adapter/prototype/service/ResumoServiceExtracaoGeminiTest.java | A | 147 | 0 | T |
+
+TOTAIS|P 2 arq / 63 lin|T 1 arq / 147 lin|O 1 arq / 25 lin (codigo 1 / 25, config 0 / 0)|GERAL 4 arq / 235 lin
+
+################ 497ed71 -> cenario-1-desacoplada (86dc06d)
+--- EXCLUIDOS (fora de prototype/):
+--- MODO --no-renames
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiAdapter.java | D | 0 | 96 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiConfig.java | D | 0 | 41 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiProperties.java | D | 0 | 48 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiRequest.java | D | 0 | 66 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiResponse.java | D | 0 | 68 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqAdapter.java | A | 91 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqConfig.java | A | 41 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqProperties.java | A | 48 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqRequest.java | A | 71 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqResponse.java | A | 55 | 0 | P |
+| src/main/resources/application.properties | M | 5 | 5 | Of |
+
+TOTAIS|P 10 arq / 625 lin|T 0 arq / 0 lin|O 1 arq / 10 lin (codigo 0 / 0, config 1 / 10)|GERAL 11 arq / 635 lin
+--- MODO padrao (deteccao de renomeacao)
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiRequest.java | D | 0 | 66 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiResponse.java | D | 0 | 68 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiAdapter.java → src/main/java/com/adapter/prototype/provider/groq/GroqAdapter.java | R065 | 19 | 24 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiConfig.java → src/main/java/com/adapter/prototype/provider/groq/GroqConfig.java | R070 | 8 | 8 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiProperties.java → src/main/java/com/adapter/prototype/provider/groq/GroqProperties.java | R055 | 9 | 9 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqRequest.java | A | 71 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqResponse.java | A | 55 | 0 | P |
+| src/main/resources/application.properties | M | 5 | 5 | Of |
+
+TOTAIS|P 7 arq / 337 lin|T 0 arq / 0 lin|O 1 arq / 10 lin (codigo 0 / 0, config 1 / 10)|GERAL 8 arq / 347 lin
+
+################ 497ed71 -> cenario-2-desacoplada (d784cc8)
+--- EXCLUIDOS (fora de prototype/):
+--- MODO --no-renames
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/dto/ResumoRequest.java | M | 11 | 0 | Oc |
+| src/main/java/com/adapter/prototype/exception/GlobalExceptionHandler.java | M | 6 | 0 | Oc |
+| src/main/java/com/adapter/prototype/exception/ProvedorInvalidoException.java | A | 12 | 0 | Oc |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiAdapter.java | M | 1 | 1 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqAdapter.java | A | 91 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqConfig.java | A | 41 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqProperties.java | A | 48 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqRequest.java | A | 71 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqResponse.java | A | 55 | 0 | P |
+| src/main/java/com/adapter/prototype/service/ResumoService.java | M | 28 | 4 | Oc |
+| src/main/resources/application.properties | M | 11 | 0 | Of |
+
+TOTAIS|P 6 arq / 308 lin|T 0 arq / 0 lin|O 5 arq / 72 lin (codigo 4 / 61, config 1 / 11)|GERAL 11 arq / 380 lin
+--- MODO padrao (deteccao de renomeacao)
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/dto/ResumoRequest.java | M | 11 | 0 | Oc |
+| src/main/java/com/adapter/prototype/exception/GlobalExceptionHandler.java | M | 6 | 0 | Oc |
+| src/main/java/com/adapter/prototype/exception/ProvedorInvalidoException.java | A | 12 | 0 | Oc |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiAdapter.java | M | 1 | 1 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqAdapter.java | A | 91 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqConfig.java | A | 41 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqProperties.java | A | 48 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqRequest.java | A | 71 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/groq/GroqResponse.java | A | 55 | 0 | P |
+| src/main/java/com/adapter/prototype/service/ResumoService.java | M | 28 | 4 | Oc |
+| src/main/resources/application.properties | M | 11 | 0 | Of |
+
+TOTAIS|P 6 arq / 308 lin|T 0 arq / 0 lin|O 5 arq / 72 lin (codigo 4 / 61, config 1 / 11)|GERAL 11 arq / 380 lin
+
+################ 497ed71 -> cenario-3-desacoplada (ea76236)
+--- EXCLUIDOS (fora de prototype/):
+--- MODO --no-renames
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiAdapter.java | M | 22 | 4 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiRequest.java | M | 39 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiResponse.java | M | 19 | 5 | P |
+| src/test/java/com/adapter/prototype/provider/gemini/GeminiAdapterExtracaoTest.java | A | 145 | 0 | T |
+
+TOTAIS|P 3 arq / 89 lin|T 1 arq / 145 lin|O 0 arq / 0 lin (codigo 0 / 0, config 0 / 0)|GERAL 4 arq / 234 lin
+--- MODO padrao (deteccao de renomeacao)
+| arquivo | status | + | - | grupo |
+|---|---|---:|---:|:---:|
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiAdapter.java | M | 22 | 4 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiRequest.java | M | 39 | 0 | P |
+| src/main/java/com/adapter/prototype/provider/gemini/GeminiResponse.java | M | 19 | 5 | P |
+| src/test/java/com/adapter/prototype/provider/gemini/GeminiAdapterExtracaoTest.java | A | 145 | 0 | T |
+
+TOTAIS|P 3 arq / 89 lin|T 1 arq / 145 lin|O 0 arq / 0 lin (codigo 0 / 0, config 0 / 0)|GERAL 4 arq / 234 lin
+

@@ -1,0 +1,247 @@
+par	sinal	linha	categoria	motivo	texto
+baseline-acoplada -> cenario-1-acoplada	-	3	I	import de tipo do provedor	import com.adapter.prototype.client.GeminiRequest;
+baseline-acoplada -> cenario-1-acoplada	-	4	I	import de tipo do provedor	import com.adapter.prototype.client.GeminiResponse;
+baseline-acoplada -> cenario-1-acoplada	-	5	I	import de tipo do provedor	import com.adapter.prototype.config.GeminiProperties;
+baseline-acoplada -> cenario-1-acoplada	+	3	I	import de tipo do provedor	import com.adapter.prototype.client.GroqRequest;
+baseline-acoplada -> cenario-1-acoplada	+	4	I	import de tipo do provedor	import com.adapter.prototype.client.GroqResponse;
+baseline-acoplada -> cenario-1-acoplada	+	5	I	import de tipo do provedor	import com.adapter.prototype.config.GroqProperties;
+baseline-acoplada -> cenario-1-acoplada	-	33	I	marcador I (campo)	    private final GeminiProperties geminiProperties;
+baseline-acoplada -> cenario-1-acoplada	+	33	I	marcador I (campo)	    private final GroqProperties groqProperties;
+baseline-acoplada -> cenario-1-acoplada	-	35	I	marcador I (ResumoService)	    public ResumoService(RestTemplate geminiRestTemplate, GeminiProperties geminiProperties) {
+baseline-acoplada -> cenario-1-acoplada	-	36	I	marcador I (ResumoService)	        this.restTemplate = geminiRestTemplate;
+baseline-acoplada -> cenario-1-acoplada	-	37	I	marcador I (ResumoService)	        this.geminiProperties = geminiProperties;
+baseline-acoplada -> cenario-1-acoplada	+	35	I	marcador I (ResumoService)	    public ResumoService(RestTemplate groqRestTemplate, GroqProperties groqProperties) {
+baseline-acoplada -> cenario-1-acoplada	+	36	I	marcador I (ResumoService)	        this.restTemplate = groqRestTemplate;
+baseline-acoplada -> cenario-1-acoplada	+	37	I	marcador I (ResumoService)	        this.groqProperties = groqProperties;
+baseline-acoplada -> cenario-1-acoplada	-	57	N	comentário	        // Chamada direta e acoplada à API do Gemini, propositalmente sem
+baseline-acoplada -> cenario-1-acoplada	+	57	N	comentário	        // Chamada direta e acoplada à API do Groq, propositalmente sem
+baseline-acoplada -> cenario-1-acoplada	-	59	I	marcador I (gerarResumo)	        String url = geminiProperties.getUrl() + "/" + geminiProperties.getModel()
+baseline-acoplada -> cenario-1-acoplada	-	60	I	marcador I (gerarResumo)	                + ":generateContent";
+baseline-acoplada -> cenario-1-acoplada	-	61	N	linha em branco	
+baseline-acoplada -> cenario-1-acoplada	-	64	I	marcador I (gerarResumo)	        headers.set("x-goog-api-key", geminiProperties.getKey());
+baseline-acoplada -> cenario-1-acoplada	+	61	I	marcador I (gerarResumo)	        headers.setBearerAuth(groqProperties.getKey());
+baseline-acoplada -> cenario-1-acoplada	-	66	?	marcadores mistos R+I (gerarResumo)	        GeminiRequest corpo = new GeminiRequest(PROMPT_BASE + texto);
+baseline-acoplada -> cenario-1-acoplada	-	67	I	marcador I (gerarResumo)	        HttpEntity<GeminiRequest> requisicao = new HttpEntity<>(corpo, headers);
+baseline-acoplada -> cenario-1-acoplada	+	63	?	marcadores mistos R+I (gerarResumo)	        GroqRequest corpo = new GroqRequest(groqProperties.getModel(), PROMPT_BASE + texto);
+baseline-acoplada -> cenario-1-acoplada	+	64	I	marcador I (gerarResumo)	        HttpEntity<GroqRequest> requisicao = new HttpEntity<>(corpo, headers);
+baseline-acoplada -> cenario-1-acoplada	-	69	I	marcador I (gerarResumo)	        GeminiResponse resposta;
+baseline-acoplada -> cenario-1-acoplada	+	66	I	marcador I (gerarResumo)	        GroqResponse resposta;
+baseline-acoplada -> cenario-1-acoplada	-	71	I	marcador I (gerarResumo)	            resposta = restTemplate.postForObject(url, requisicao, GeminiResponse.class);
+baseline-acoplada -> cenario-1-acoplada	+	68	I	marcador I (gerarResumo)	            resposta = restTemplate.postForObject(groqProperties.getUrl(), requisicao, GroqResponse.class);
+baseline-acoplada -> cenario-1-acoplada	-	88	N	comentário	     * Traduz uma resposta HTTP não-2xx do Gemini (ex.: {@link HttpClientErrorException}
+baseline-acoplada -> cenario-1-acoplada	+	85	N	comentário	     * Traduz uma resposta HTTP não-2xx do Groq (ex.: {@link HttpClientErrorException}
+baseline-acoplada -> cenario-1-acoplada	-	101	I	método extrairTextoGerado	    private String extrairTextoGerado(GeminiResponse resposta) {
+baseline-acoplada -> cenario-1-acoplada	-	102	I	método extrairTextoGerado	        List<GeminiResponse.Candidate> candidates =
+baseline-acoplada -> cenario-1-acoplada	-	103	I	método extrairTextoGerado	                resposta != null ? resposta.getCandidates() : null;
+baseline-acoplada -> cenario-1-acoplada	+	98	I	método extrairTextoGerado	    private String extrairTextoGerado(GroqResponse resposta) {
+baseline-acoplada -> cenario-1-acoplada	+	99	I	método extrairTextoGerado	        List<GroqResponse.Choice> choices = resposta != null ? resposta.getChoices() : null;
+baseline-acoplada -> cenario-1-acoplada	-	105	I	método extrairTextoGerado	        if (candidates == null || candidates.isEmpty()) {
+baseline-acoplada -> cenario-1-acoplada	+	101	I	método extrairTextoGerado	        if (choices == null || choices.isEmpty()) {
+baseline-acoplada -> cenario-1-acoplada	-	109	I	método extrairTextoGerado	        GeminiResponse.Content content = candidates.get(0).getContent();
+baseline-acoplada -> cenario-1-acoplada	-	110	I	método extrairTextoGerado	        List<GeminiResponse.Part> parts = content != null ? content.getParts() : null;
+baseline-acoplada -> cenario-1-acoplada	+	105	I	método extrairTextoGerado	        GroqResponse.Message message = choices.get(0).getMessage();
+baseline-acoplada -> cenario-1-acoplada	-	112	I	método extrairTextoGerado	        if (parts == null || parts.isEmpty() || parts.get(0).getText() == null) {
+baseline-acoplada -> cenario-1-acoplada	+	107	I	método extrairTextoGerado	        if (message == null || message.getContent() == null) {
+baseline-acoplada -> cenario-1-acoplada	-	116	I	método extrairTextoGerado	        return parts.get(0).getText();
+baseline-acoplada -> cenario-1-acoplada	+	111	I	método extrairTextoGerado	        return message.getContent();
+baseline-acoplada -> cenario-2-acoplada	+	5	I	import de tipo do provedor	import com.adapter.prototype.client.GroqRequest;
+baseline-acoplada -> cenario-2-acoplada	+	6	I	import de tipo do provedor	import com.adapter.prototype.client.GroqResponse;
+baseline-acoplada -> cenario-2-acoplada	+	8	I	import de tipo do provedor	import com.adapter.prototype.config.GroqProperties;
+baseline-acoplada -> cenario-2-acoplada	+	12	S	import de seleção	import com.adapter.prototype.exception.ProvedorInvalidoException;
+baseline-acoplada -> cenario-2-acoplada	-	32	I	marcador I (campo)	    private final RestTemplate restTemplate;
+baseline-acoplada -> cenario-2-acoplada	+	36	S	marcador S (campo)	    private static final String PROVEDOR_PADRAO = "gemini";
+baseline-acoplada -> cenario-2-acoplada	+	37	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	38	I	marcador I (campo)	    private final RestTemplate geminiRestTemplate;
+baseline-acoplada -> cenario-2-acoplada	+	40	I	marcador I (campo)	    private final RestTemplate groqRestTemplate;
+baseline-acoplada -> cenario-2-acoplada	+	41	I	marcador I (campo)	    private final GroqProperties groqProperties;
+baseline-acoplada -> cenario-2-acoplada	-	35	I	marcador I (ResumoService)	    public ResumoService(RestTemplate geminiRestTemplate, GeminiProperties geminiProperties) {
+baseline-acoplada -> cenario-2-acoplada	-	36	I	marcador I (ResumoService)	        this.restTemplate = geminiRestTemplate;
+baseline-acoplada -> cenario-2-acoplada	+	43	I	marcador I (ResumoService)	    public ResumoService(RestTemplate geminiRestTemplate, GeminiProperties geminiProperties,
+baseline-acoplada -> cenario-2-acoplada	+	44	I	marcador I (ResumoService)	            RestTemplate groqRestTemplate, GroqProperties groqProperties) {
+baseline-acoplada -> cenario-2-acoplada	+	45	I	marcador I (ResumoService)	        this.geminiRestTemplate = geminiRestTemplate;
+baseline-acoplada -> cenario-2-acoplada	+	47	I	marcador I (ResumoService)	        this.groqRestTemplate = groqRestTemplate;
+baseline-acoplada -> cenario-2-acoplada	+	48	I	marcador I (ResumoService)	        this.groqProperties = groqProperties;
+baseline-acoplada -> cenario-2-acoplada	-	57	N	comentário	        // Chamada direta e acoplada à API do Gemini, propositalmente sem
+baseline-acoplada -> cenario-2-acoplada	-	58	N	comentário	        // camada de abstração intermediária.
+baseline-acoplada -> cenario-2-acoplada	+	68	S	marcador S (gerarResumo)	        String provedor = normalizarProvedor(request.getProvedor());
+baseline-acoplada -> cenario-2-acoplada	+	69	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	70	?	sem marcador (gerarResumo)	        String textoResumido;
+baseline-acoplada -> cenario-2-acoplada	+	71	N	comentário	        // Roteamento direto e acoplado por provedor, propositalmente sem
+baseline-acoplada -> cenario-2-acoplada	+	72	N	comentário	        // interface comum entre as chamadas do Gemini e do Groq.
+baseline-acoplada -> cenario-2-acoplada	+	73	S	bloco switch de despacho	        switch (provedor) {
+baseline-acoplada -> cenario-2-acoplada	+	74	S	bloco switch de despacho	            case "gemini":
+baseline-acoplada -> cenario-2-acoplada	+	75	S	bloco switch de despacho	                textoResumido = chamarGemini(texto);
+baseline-acoplada -> cenario-2-acoplada	+	76	S	bloco switch de despacho	                break;
+baseline-acoplada -> cenario-2-acoplada	+	77	S	bloco switch de despacho	            case "groq":
+baseline-acoplada -> cenario-2-acoplada	+	78	S	bloco switch de despacho	                textoResumido = chamarGroq(texto);
+baseline-acoplada -> cenario-2-acoplada	+	79	S	bloco switch de despacho	                break;
+baseline-acoplada -> cenario-2-acoplada	+	80	S	bloco switch de despacho	            default:
+baseline-acoplada -> cenario-2-acoplada	+	81	N	comentário	                // Inatingível: normalizarProvedor já rejeita qualquer outro valor.
+baseline-acoplada -> cenario-2-acoplada	+	82	S	bloco switch de despacho	                throw new ProvedorInvalidoException(
+baseline-acoplada -> cenario-2-acoplada	+	83	S	bloco switch de despacho	                        "Provedor inválido. Valores aceitos: gemini, groq.");
+baseline-acoplada -> cenario-2-acoplada	+	84	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-2-acoplada	+	85	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	86	R	marcador R (gerarResumo)	        ResumoResponse response = new ResumoResponse();
+baseline-acoplada -> cenario-2-acoplada	+	87	R	marcador R (gerarResumo)	        response.setResumo(textoResumido);
+baseline-acoplada -> cenario-2-acoplada	+	88	R	marcador R (gerarResumo)	        return response;
+baseline-acoplada -> cenario-2-acoplada	+	89	N	chaves/delimitadores	    }
+baseline-acoplada -> cenario-2-acoplada	+	90	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	91	S	método normalizarProvedor	    private String normalizarProvedor(String provedorBruto) {
+baseline-acoplada -> cenario-2-acoplada	+	92	S	método normalizarProvedor	        if (provedorBruto == null || provedorBruto.isBlank()) {
+baseline-acoplada -> cenario-2-acoplada	+	93	S	método normalizarProvedor	            return PROVEDOR_PADRAO;
+baseline-acoplada -> cenario-2-acoplada	+	94	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-2-acoplada	+	95	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	96	S	método normalizarProvedor	        String provedor = provedorBruto.trim().toLowerCase();
+baseline-acoplada -> cenario-2-acoplada	+	97	S	método normalizarProvedor	        if (!provedor.equals("gemini") && !provedor.equals("groq")) {
+baseline-acoplada -> cenario-2-acoplada	+	98	S	método normalizarProvedor	            throw new ProvedorInvalidoException("Provedor inválido. Valores aceitos: gemini, groq.");
+baseline-acoplada -> cenario-2-acoplada	+	99	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-2-acoplada	+	100	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	101	S	método normalizarProvedor	        return provedor;
+baseline-acoplada -> cenario-2-acoplada	+	102	N	chaves/delimitadores	    }
+baseline-acoplada -> cenario-2-acoplada	+	103	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	104	N	comentário	    // ---- Gemini ----
+baseline-acoplada -> cenario-2-acoplada	+	105	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	106	I	método chamarGemini	    private String chamarGemini(String texto) {
+baseline-acoplada -> cenario-2-acoplada	-	71	I	marcador I (gerarResumo)	            resposta = restTemplate.postForObject(url, requisicao, GeminiResponse.class);
+baseline-acoplada -> cenario-2-acoplada	+	119	I	método chamarGemini	            resposta = geminiRestTemplate.postForObject(url, requisicao, GeminiResponse.class);
+baseline-acoplada -> cenario-2-acoplada	-	82	R	marcador R (gerarResumo)	        ResumoResponse response = new ResumoResponse();
+baseline-acoplada -> cenario-2-acoplada	-	83	?	marcadores mistos R+I (gerarResumo)	        response.setResumo(extrairTextoGerado(resposta));
+baseline-acoplada -> cenario-2-acoplada	-	84	R	marcador R (gerarResumo)	        return response;
+baseline-acoplada -> cenario-2-acoplada	+	130	I	método chamarGemini	        return extrairTextoGeradoGemini(resposta);
+baseline-acoplada -> cenario-2-acoplada	-	87	N	comentário	    /**
+baseline-acoplada -> cenario-2-acoplada	-	88	N	comentário	     * Traduz uma resposta HTTP não-2xx do Gemini (ex.: {@link HttpClientErrorException}
+baseline-acoplada -> cenario-2-acoplada	-	89	N	comentário	     * ou {@link HttpServerErrorException}) em uma mensagem apropriada ao caso.
+baseline-acoplada -> cenario-2-acoplada	-	90	N	comentário	     */
+baseline-acoplada -> cenario-2-acoplada	-	91	I	método mapearErroHttp	    private ProvedorIndisponivelException mapearErroHttp(HttpStatusCodeException ex) {
+baseline-acoplada -> cenario-2-acoplada	-	92	I	método mapearErroHttp	        if (ex.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+baseline-acoplada -> cenario-2-acoplada	-	93	I	método mapearErroHttp	            return new ProvedorIndisponivelException(
+baseline-acoplada -> cenario-2-acoplada	-	94	I	método mapearErroHttp	                    "Limite de requisições ao provedor de IA excedido.", ex);
+baseline-acoplada -> cenario-2-acoplada	-	95	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-2-acoplada	-	96	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	-	97	I	método mapearErroHttp	        return new ProvedorIndisponivelException(
+baseline-acoplada -> cenario-2-acoplada	-	98	I	método mapearErroHttp	                "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
+baseline-acoplada -> cenario-2-acoplada	-	99	N	chaves/delimitadores	    }
+baseline-acoplada -> cenario-2-acoplada	-	100	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	-	101	I	método extrairTextoGerado	    private String extrairTextoGerado(GeminiResponse resposta) {
+baseline-acoplada -> cenario-2-acoplada	+	133	I	método extrairTextoGeradoGemini	    private String extrairTextoGeradoGemini(GeminiResponse resposta) {
+baseline-acoplada -> cenario-2-acoplada	+	150	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	151	N	comentário	    // ---- Groq ----
+baseline-acoplada -> cenario-2-acoplada	+	152	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	153	I	método chamarGroq	    private String chamarGroq(String texto) {
+baseline-acoplada -> cenario-2-acoplada	+	154	I	método chamarGroq	        String url = groqProperties.getUrl();
+baseline-acoplada -> cenario-2-acoplada	+	155	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	156	I	método chamarGroq	        HttpHeaders headers = new HttpHeaders();
+baseline-acoplada -> cenario-2-acoplada	+	157	I	método chamarGroq	        headers.setContentType(MediaType.APPLICATION_JSON);
+baseline-acoplada -> cenario-2-acoplada	+	158	I	método chamarGroq	        headers.setBearerAuth(groqProperties.getKey());
+baseline-acoplada -> cenario-2-acoplada	+	159	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	160	I	método chamarGroq	        GroqRequest corpo = new GroqRequest(groqProperties.getModel(), PROMPT_BASE + texto);
+baseline-acoplada -> cenario-2-acoplada	+	161	I	método chamarGroq	        HttpEntity<GroqRequest> requisicao = new HttpEntity<>(corpo, headers);
+baseline-acoplada -> cenario-2-acoplada	+	162	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	163	I	método chamarGroq	        GroqResponse resposta;
+baseline-acoplada -> cenario-2-acoplada	+	164	I	método chamarGroq	        try {
+baseline-acoplada -> cenario-2-acoplada	+	165	I	método chamarGroq	            resposta = groqRestTemplate.postForObject(url, requisicao, GroqResponse.class);
+baseline-acoplada -> cenario-2-acoplada	+	166	I	método chamarGroq	        } catch (HttpStatusCodeException ex) {
+baseline-acoplada -> cenario-2-acoplada	+	167	I	método chamarGroq	            throw mapearErroHttp(ex);
+baseline-acoplada -> cenario-2-acoplada	+	168	I	método chamarGroq	        } catch (ResourceAccessException ex) {
+baseline-acoplada -> cenario-2-acoplada	+	169	I	método chamarGroq	            throw new ProvedorIndisponivelException(
+baseline-acoplada -> cenario-2-acoplada	+	170	I	método chamarGroq	                    "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
+baseline-acoplada -> cenario-2-acoplada	+	171	I	método chamarGroq	        } catch (RestClientException ex) {
+baseline-acoplada -> cenario-2-acoplada	+	172	I	método chamarGroq	            throw new ProvedorIndisponivelException(
+baseline-acoplada -> cenario-2-acoplada	+	173	I	método chamarGroq	                    "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
+baseline-acoplada -> cenario-2-acoplada	+	174	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-2-acoplada	+	175	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	176	I	método chamarGroq	        return extrairTextoGeradoGroq(resposta);
+baseline-acoplada -> cenario-2-acoplada	+	177	N	chaves/delimitadores	    }
+baseline-acoplada -> cenario-2-acoplada	+	178	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	179	I	método extrairTextoGeradoGroq	    private String extrairTextoGeradoGroq(GroqResponse resposta) {
+baseline-acoplada -> cenario-2-acoplada	+	180	I	método extrairTextoGeradoGroq	        List<GroqResponse.Choice> choices = resposta != null ? resposta.getChoices() : null;
+baseline-acoplada -> cenario-2-acoplada	+	181	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	182	I	método extrairTextoGeradoGroq	        if (choices == null || choices.isEmpty()) {
+baseline-acoplada -> cenario-2-acoplada	+	183	I	método extrairTextoGeradoGroq	            throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
+baseline-acoplada -> cenario-2-acoplada	+	184	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-2-acoplada	+	185	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	186	I	método extrairTextoGeradoGroq	        GroqResponse.Message message = choices.get(0).getMessage();
+baseline-acoplada -> cenario-2-acoplada	+	187	I	método extrairTextoGeradoGroq	        String conteudo = message != null ? message.getContent() : null;
+baseline-acoplada -> cenario-2-acoplada	+	188	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	189	I	método extrairTextoGeradoGroq	        if (conteudo == null) {
+baseline-acoplada -> cenario-2-acoplada	+	190	I	método extrairTextoGeradoGroq	            throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
+baseline-acoplada -> cenario-2-acoplada	+	191	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-2-acoplada	+	192	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	193	I	método extrairTextoGeradoGroq	        return conteudo;
+baseline-acoplada -> cenario-2-acoplada	+	194	N	chaves/delimitadores	    }
+baseline-acoplada -> cenario-2-acoplada	+	195	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	196	N	comentário	    // ---- Compartilhado ----
+baseline-acoplada -> cenario-2-acoplada	+	197	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	198	N	comentário	    /**
+baseline-acoplada -> cenario-2-acoplada	+	199	N	comentário	     * Traduz uma resposta HTTP não-2xx de qualquer provedor (ex.:
+baseline-acoplada -> cenario-2-acoplada	+	200	N	comentário	     * {@link HttpClientErrorException} ou {@link HttpServerErrorException}) em
+baseline-acoplada -> cenario-2-acoplada	+	201	N	comentário	     * uma mensagem apropriada ao caso. Reaproveitado entre Gemini e Groq porque
+baseline-acoplada -> cenario-2-acoplada	+	202	N	comentário	     * opera apenas sobre tipos genéricos do Spring (exceção e status HTTP),
+baseline-acoplada -> cenario-2-acoplada	+	203	N	comentário	     * nunca sobre a estrutura de resposta específica de um provedor.
+baseline-acoplada -> cenario-2-acoplada	+	204	N	comentário	     */
+baseline-acoplada -> cenario-2-acoplada	+	205	I	método mapearErroHttp	    private ProvedorIndisponivelException mapearErroHttp(HttpStatusCodeException ex) {
+baseline-acoplada -> cenario-2-acoplada	+	206	I	método mapearErroHttp	        if (ex.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+baseline-acoplada -> cenario-2-acoplada	+	207	I	método mapearErroHttp	            return new ProvedorIndisponivelException(
+baseline-acoplada -> cenario-2-acoplada	+	208	I	método mapearErroHttp	                    "Limite de requisições ao provedor de IA excedido.", ex);
+baseline-acoplada -> cenario-2-acoplada	+	209	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-2-acoplada	+	210	N	linha em branco	
+baseline-acoplada -> cenario-2-acoplada	+	211	I	método mapearErroHttp	        return new ProvedorIndisponivelException(
+baseline-acoplada -> cenario-2-acoplada	+	212	I	método mapearErroHttp	                "O serviço de IA está indisponível no momento. Tente novamente em instantes.", ex);
+baseline-acoplada -> cenario-2-acoplada	+	213	N	chaves/delimitadores	    }
+baseline-acoplada -> cenario-3-acoplada	+	23	N	import genérico	import java.util.Objects;
+baseline-acoplada -> cenario-3-acoplada	+	24	N	import genérico	import java.util.stream.Collectors;
+baseline-acoplada -> cenario-3-acoplada	+	33	I	marcador I (campo)	    private static final String RESPONSE_MIME_TYPE = "text/plain";
+baseline-acoplada -> cenario-3-acoplada	+	34	I	marcador I (campo)	    private static final double TEMPERATURE = 0.7;
+baseline-acoplada -> cenario-3-acoplada	+	71	I	marcador I (gerarResumo)	        corpo.setGenerationConfig(new GeminiRequest.GenerationConfig(RESPONSE_MIME_TYPE, TEMPERATURE));
+baseline-acoplada -> cenario-3-acoplada	-	101	I	método extrairTextoGerado	    private String extrairTextoGerado(GeminiResponse resposta) {
+baseline-acoplada -> cenario-3-acoplada	+	106	N	comentário	    // Visibilidade package-private (em vez de private) especificamente para
+baseline-acoplada -> cenario-3-acoplada	+	107	N	comentário	    // permitir teste unitário direto, sem expor a extração como API pública.
+baseline-acoplada -> cenario-3-acoplada	+	108	I	método extrairTextoGerado	    String extrairTextoGerado(GeminiResponse resposta) {
+baseline-acoplada -> cenario-3-acoplada	+	109	I	método extrairTextoGerado	        GeminiResponse.Response corpoResposta = resposta != null ? resposta.getResponse() : null;
+baseline-acoplada -> cenario-3-acoplada	-	103	I	método extrairTextoGerado	                resposta != null ? resposta.getCandidates() : null;
+baseline-acoplada -> cenario-3-acoplada	+	111	I	método extrairTextoGerado	                corpoResposta != null ? corpoResposta.getCandidates() : null;
+baseline-acoplada -> cenario-3-acoplada	-	112	I	método extrairTextoGerado	        if (parts == null || parts.isEmpty() || parts.get(0).getText() == null) {
+baseline-acoplada -> cenario-3-acoplada	+	120	I	método extrairTextoGerado	        if (parts == null || parts.isEmpty()) {
+baseline-acoplada -> cenario-3-acoplada	-	116	I	método extrairTextoGerado	        return parts.get(0).getText();
+baseline-acoplada -> cenario-3-acoplada	+	124	I	método extrairTextoGerado	        String textoGerado = parts.stream()
+baseline-acoplada -> cenario-3-acoplada	+	125	I	método extrairTextoGerado	                .map(GeminiResponse.Part::getText)
+baseline-acoplada -> cenario-3-acoplada	+	126	I	método extrairTextoGerado	                .filter(Objects::nonNull)
+baseline-acoplada -> cenario-3-acoplada	+	127	I	método extrairTextoGerado	                .collect(Collectors.joining());
+baseline-acoplada -> cenario-3-acoplada	+	128	N	linha em branco	
+baseline-acoplada -> cenario-3-acoplada	+	129	I	método extrairTextoGerado	        if (textoGerado.isBlank()) {
+baseline-acoplada -> cenario-3-acoplada	+	130	I	método extrairTextoGerado	            throw new ProvedorIndisponivelException("Não foi possível gerar o resumo. Tente novamente.");
+baseline-acoplada -> cenario-3-acoplada	+	131	N	chaves/delimitadores	        }
+baseline-acoplada -> cenario-3-acoplada	+	132	N	linha em branco	
+baseline-acoplada -> cenario-3-acoplada	+	133	I	método extrairTextoGerado	        return textoGerado;
+baseline-desacoplada -> cenario-2-desacoplada	+	5	S	import de seleção	import com.adapter.prototype.exception.ProvedorInvalidoException;
+baseline-desacoplada -> cenario-2-desacoplada	+	8	N	import genérico	import org.springframework.beans.factory.annotation.Value;
+baseline-desacoplada -> cenario-2-desacoplada	+	11	N	import genérico	import java.util.Map;
+baseline-desacoplada -> cenario-2-desacoplada	+	12	N	import genérico	import java.util.TreeSet;
+baseline-desacoplada -> cenario-2-desacoplada	+	13	N	linha em branco	
+baseline-desacoplada -> cenario-2-desacoplada	-	17	?	sem marcador (campo)	    private final AiSummarizerClient aiSummarizerClient;
+baseline-desacoplada -> cenario-2-desacoplada	+	22	N	comentário	    /** Implementações do Target indexadas pelo nome do bean de cada Adapter. */
+baseline-desacoplada -> cenario-2-desacoplada	+	23	S	marcador S (campo)	    private final Map<String, AiSummarizerClient> clientes;
+baseline-desacoplada -> cenario-2-desacoplada	+	24	S	marcador S (campo)	    private final String provedorPadrao;
+baseline-desacoplada -> cenario-2-desacoplada	-	19	?	sem marcador (ResumoService)	    public ResumoService(AiSummarizerClient aiSummarizerClient) {
+baseline-desacoplada -> cenario-2-desacoplada	-	20	?	sem marcador (ResumoService)	        this.aiSummarizerClient = aiSummarizerClient;
+baseline-desacoplada -> cenario-2-desacoplada	+	26	S	marcador S (ResumoService)	    public ResumoService(Map<String, AiSummarizerClient> clientes,
+baseline-desacoplada -> cenario-2-desacoplada	+	27	S	marcador S (ResumoService)	                         @Value("${ai.provider.default}") String provedorPadrao) {
+baseline-desacoplada -> cenario-2-desacoplada	+	28	S	marcador S (ResumoService)	        this.clientes = clientes;
+baseline-desacoplada -> cenario-2-desacoplada	+	29	S	marcador S (ResumoService)	        this.provedorPadrao = provedorPadrao;
+baseline-desacoplada -> cenario-2-desacoplada	-	40	R	marcador R (gerarResumo)	        String resumo = aiSummarizerClient.gerarResumo(PROMPT_BASE + texto);
+baseline-desacoplada -> cenario-2-desacoplada	+	49	S	marcador S (gerarResumo)	        AiSummarizerClient cliente = selecionarCliente(request.getProvedor());
+baseline-desacoplada -> cenario-2-desacoplada	+	50	R	marcador R (gerarResumo)	        String resumo = cliente.gerarResumo(PROMPT_BASE + texto);
+baseline-desacoplada -> cenario-2-desacoplada	+	56	N	linha em branco	
+baseline-desacoplada -> cenario-2-desacoplada	+	57	S	método selecionarCliente	    private AiSummarizerClient selecionarCliente(String provedor) {
+baseline-desacoplada -> cenario-2-desacoplada	+	58	S	método selecionarCliente	        String nome = (provedor == null || provedor.isBlank())
+baseline-desacoplada -> cenario-2-desacoplada	+	59	S	método selecionarCliente	                ? provedorPadrao
+baseline-desacoplada -> cenario-2-desacoplada	+	60	S	método selecionarCliente	                : provedor.trim().toLowerCase();
+baseline-desacoplada -> cenario-2-desacoplada	+	61	N	linha em branco	
+baseline-desacoplada -> cenario-2-desacoplada	+	62	S	método selecionarCliente	        AiSummarizerClient cliente = clientes.get(nome);
+baseline-desacoplada -> cenario-2-desacoplada	+	63	S	método selecionarCliente	        if (cliente == null) {
+baseline-desacoplada -> cenario-2-desacoplada	+	64	S	método selecionarCliente	            throw new ProvedorInvalidoException(
+baseline-desacoplada -> cenario-2-desacoplada	+	65	S	método selecionarCliente	                    "Provedor inválido. Valores aceitos: "
+baseline-desacoplada -> cenario-2-desacoplada	+	66	S	método selecionarCliente	                            + String.join(", ", new TreeSet<>(clientes.keySet())) + ".");
+baseline-desacoplada -> cenario-2-desacoplada	+	67	N	chaves/delimitadores	        }
+baseline-desacoplada -> cenario-2-desacoplada	+	68	S	método selecionarCliente	        return cliente;
+baseline-desacoplada -> cenario-2-desacoplada	+	69	N	chaves/delimitadores	    }
