@@ -231,6 +231,8 @@ For each scenario, on each version, the following metrics are collected via Git 
 
 Full methodology, measurement scripts, raw results, validity threats and analysis are documented in the [TCC repository](https://github.com/CmuriloDev/TCC-Document) (`METRICAS.md` and `prototipo/`), and in the published article once available.
 
+Measurement scripts and their outputs for this repository (file/line diffs, SLOC, CBO and functional-equivalence validation) are in [`metricas/`](metricas/); see [`metricas/README.md`](metricas/README.md) for what each file contains and how to run it.
+
 ### Experiment tags
 
 Each scenario is applied on top of its version's baseline, tagged, and then reverted, so every scenario is measured independently with `git diff <baseline> <tag>`. Both branches are kept at their baseline; the scenario states live only in the tags below.
