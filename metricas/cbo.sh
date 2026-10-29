@@ -10,6 +10,7 @@ export LC_ALL=C.UTF-8
 RAIZ=$(git rev-parse --show-toplevel)
 cd "$RAIZ"
 CK_VERSAO=0.7.0
+CK_DATA=2022-02-03   # tag ck-0.7.0 no GitHub e publicação no Maven Central
 CSV=metricas/cbo-por-classe.csv
 MD=metricas/cbo.md
 TMP=$(mktemp -d)
@@ -55,7 +56,7 @@ git worktree prune
     echo
     echo "- Data: $(date -Iseconds)"
     echo "- $(git --version); Maven (wrapper do projeto): $(sed -n 's/.*apache-maven-\([0-9.]*\)-bin.*/\1/p' prototype/.mvn/wrapper/maven-wrapper.properties); Java: $(java -version 2>&1 | head -1)"
-    echo "- Ferramenta: CK $CK_VERSAO (com.github.mauricioaniche:ck:$CK_VERSAO, Maven Central)"
+    echo "- Ferramenta: CK $CK_VERSAO (com.github.mauricioaniche:ck:$CK_VERSAO, Maven Central), versão de $CK_DATA; tag: https://github.com/mauricioaniche/ck/tree/ck-$CK_VERSAO"
     echo "- Comando por estado: \`java -cp \"<ck-lib>/*\" com.github.mauricioaniche.ck.Runner <worktree>/prototype/src/main/java false 0 false <saida>/\`"
     echo "  (argumentos: diretório, useJars=false, maxFilesPerPartition=0 (automático), variablesAndFields=false, diretório de saída)"
     echo "- Escopo: somente prototype/src/main/java. Com useJars=false, tipos externos (Spring, JDK) não são resolvidos por classpath; o CK os conta pelo nome declarado."

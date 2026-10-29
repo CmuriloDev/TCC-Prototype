@@ -2,7 +2,7 @@
 
 - Data: 2026-10-26T09:59:48-03:00
 - git version 2.55.0.windows.5; Maven (wrapper do projeto): 3.9.16; Java: openjdk version "17.0.20.1" 2026-08-18
-- Ferramenta: CK 0.7.0 (com.github.mauricioaniche:ck:0.7.0, Maven Central)
+- Ferramenta: CK 0.7.0 (com.github.mauricioaniche:ck:0.7.0, Maven Central), versão de 2022-02-03; tag: https://github.com/mauricioaniche/ck/tree/ck-0.7.0
 - Comando por estado: `java -cp "<ck-lib>/*" com.github.mauricioaniche.ck.Runner <worktree>/prototype/src/main/java false 0 false <saida>/`
   (argumentos: diretório, useJars=false, maxFilesPerPartition=0 (automático), variablesAndFields=false, diretório de saída)
 - Escopo: somente prototype/src/main/java. Com useJars=false, tipos externos (Spring, JDK) não são resolvidos por classpath; o CK os conta pelo nome declarado.

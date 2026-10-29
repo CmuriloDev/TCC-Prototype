@@ -20,6 +20,9 @@ Os 6 pares de medição são `baseline-<versão> -> cenario-N-<versão>`. Crité
 | `validacao-equivalencia.sh` | Sobe cada estado na porta 8081 e envia os casos C1–C10 para `POST /api/resumo`; nos estados do Cenário 3, roda `./mvnw -q test`. |
 | `validacao-equivalencia.md` | Matriz estado × caso (OK/DIVERGENTE), resultado dos testes do Cenário 3 e análise das divergências. |
 | `validacao-equivalencia-bruto.txt` | Todas as tentativas: estado, caso, tentativa, status HTTP, duração, veredito e trecho do corpo. |
+| `validacao-rodada-2.sh` | Reexecuta só os casos Gemini que ficaram DIVERGENTE (C1 em baseline-acoplada e cenario-2-acoplada; C8 em cenario-2 A e B) e os controles do outro lado de cada par, com até 5 tentativas e log DEBUG da aplicação. Recebe o rótulo da rodada como argumento. |
+| `validacao-rodada-2.md` | Diagnóstico direto da API do Gemini, tabela estado × caso × tentativa em dois horários, conclusão por caso e comparação A × B. |
+| `validacao-rodada-2-bruto.txt` | Saídas completas da rodada 2: chamadas diretas, corpos de resposta e log da aplicação nas tentativas 502. |
 | `classificar-resumoservice.sh` + `ClassificaResumoService.java` | Classificação de cada linha alterada em `ResumoService.java` em R (regra de negócio), I (integração), S (seleção de provedor), N (neutra) ou ? (dúvida). O critério está no cabeçalho do `.java`. |
 | `classificacao-resumoservice.md` | Tabela par × categoria, % de R, lista completa das linhas R e ? e o script usado. |
 | `classificacao-resumoservice.tsv` | Todas as linhas classificadas (par, sinal, número da linha, categoria, motivo, texto). |
@@ -38,6 +41,7 @@ Os 6 pares de medição são `baseline-<versão> -> cenario-N-<versão>`. Crité
 - `classificar-resumoservice.sh`, `sloc.sh`: Java 17 (os `.java` são executados direto com `java Arquivo.java`, sem compilar antes).
 - `cbo.sh`: Java 17 e acesso ao Maven Central na primeira execução (baixa o CK pelo Maven Wrapper do projeto). Para usar jars já baixados: `CK_LIB=<pasta> ./metricas/cbo.sh`.
 - `validacao-equivalencia.sh`: Java 17, `curl`, porta 8081 livre e as variáveis `GEMINI_API_KEY` e `GROQ_API_KEY` no ambiente (as chaves não são impressas). Faz chamadas reais às APIs.
+- `validacao-rodada-2.sh`: os mesmos requisitos, mas só `GEMINI_API_KEY` é obrigatória.
 
 ## Como executar
 
@@ -51,6 +55,7 @@ Na raiz do repositório (os scripts também funcionam a partir de outra pasta do
 ./metricas/cbo.sh
 ./metricas/validacao-equivalencia.sh                       # todos os estados
 ./metricas/validacao-equivalencia.sh cenario-2-acoplada   # um estado
+./metricas/validacao-rodada-2.sh R1                        # rodada 2, com o rótulo do horário
 ```
 
 Totais esperados no modo `--no-renames` (arquivos/linhas): A = 11/483, 9/388, 4/235; B = 11/635, 11/380, 4/234 (cenários 1, 2 e 3).

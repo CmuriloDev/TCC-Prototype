@@ -1,0 +1,200 @@
+# Validação — rodada 2 (casos Gemini) — saída bruta
+# Chave de API nunca impressa (filtrada como <CHAVE_REMOVIDA>; enviada só no header x-goog-api-key)
+
+### Parte 1 - diagnóstico direto (2026-10-27T23:41:11-03:00)
+## 1a) GET https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash
+status/duracao: 200 0.478978
+{
+  "name": "models/gemini-3.6-flash",
+  "version": "3.6-flash-07-2026",
+  "displayName": "Gemini 3.6 Flash",
+  "description": "Gemini 3.6 Flash",
+  "inputTokenLimit": 1048576,
+  "outputTokenLimit": 65536,
+  "supportedGenerationMethods": [
+    "generateContent",
+    "countTokens",
+    "createCachedContent",
+    "batchGenerateContent"
+  ],
+  "temperature": 1,
+  "topP": 0.95,
+  "topK": 64,
+  "maxTemperature": 2,
+  "thinking": true
+}
+
+## 1b) GET https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000 (filtrado por 'flash')
+status/duracao: 200 0.486733
+"name": "models/gemini-2.5-flash"
+"name": "models/gemini-2.5-flash-preview-tts"
+"name": "models/gemini-flash-latest"
+"name": "models/gemini-flash-lite-latest"
+"name": "models/gemini-2.5-flash-lite"
+"name": "models/gemini-2.5-flash-image"
+"name": "models/gemini-3-flash-preview"
+"name": "models/gemini-3.1-flash-lite-preview"
+"name": "models/gemini-3.1-flash-lite"
+"name": "models/gemini-3.1-flash-image-preview"
+"name": "models/gemini-3.1-flash-image"
+"name": "models/gemini-3.1-flash-lite-image"
+"name": "models/gemini-3.5-flash"
+"name": "models/gemini-3.5-flash-lite"
+"name": "models/gemini-omni-flash-preview"
+"name": "models/gemini-omni-1.1-flash"
+"name": "models/gemini-3.6-flash"
+"name": "models/gemini-3.7-flash"
+"name": "models/gemini-3.8-flash"
+"name": "models/gemini-3.1-flash-tts-preview"
+"name": "models/gemini-3.8-flash-tts"
+"name": "models/gemini-3.8-flash-lite-tts"
+"name": "models/gemini-2.5-flash-native-audio-latest"
+"name": "models/gemini-2.5-flash-native-audio-preview-09-2025"
+"name": "models/gemini-2.5-flash-native-audio-preview-12-2025"
+"name": "models/gemini-3.1-flash-live-preview"
+## 1c) POST .../gemini-3.6-flash:generateContent (corpo idêntico ao da aplicação, timeout do curl 120 s) — 2026-10-27T23:41:25-03:00
+status/duracao: 200 13.031736
+corpo (300 primeiros caracteres):
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "**Resumo:**\n\nO acoplamento direto a serviços externos de inteligência artificial compromete a manutenibilidade do software, pois faz com que alterações no provedor afetem as regras de negócio. Par
+usageMetadata:
+"usageMetadata": {    "promptTokenCount": 116,    "candidatesTokenCount": 94,    "totalTokenCount": 915,    "promptTokensDetails": [      {        "modality": "TEXT",        "tokenCount": 116      }    ],    "thoughtsTokenCount": 705,    "serviceTier": "standard"  },  "modelVersion": "gemini-3.6-flash",  "responseId": "yGDhaor1EsWP1sgPoovK6AY"}
+
+## 1c) amostra 2 — 2026-10-27T23:42:10-03:00
+status/duracao: 200 6.346984
+corpo (300 primeiros caracteres):
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "Aqui está um resumo claro e objetivo do texto:\n\nO acoplamento direto entre um sistema e provedores de inteligência artificial compromete a manutenibilidade do software, pois mudanças externas afetam
+tokens: "candidatesTokenCount":197 "thoughtsTokenCount":760 
+## 1c) amostra 3 — 2026-10-27T23:42:36-03:00
+status/duracao: 200 6.345914
+corpo (300 primeiros caracteres):
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "**Resumo:**\n\nO acoplamento direto de serviços externos, como provedores de inteligência artificial, compromete a manutenção do software ao fazer com que mudanças externas afetem as regras de negó
+tokens: "candidatesTokenCount":109 "thoughtsTokenCount":886 
+
+################################################################
+# Rodada: R1 | início: 2026-10-27T23:43:57-03:00
+# Porta: 8081 | tentativas máx.: 5 | intervalo: 20s | uma requisição por vez
+# Java: openjdk version "17.0.20.1" 2026-08-18
+# Colunas LINHA: rodada | estado | caso | tentativa | horário | status | duração_s | tamanho_resumo | corpo (300 caracteres)
+## estado=baseline-acoplada commit=295d660
+### baseline-acoplada | C1 | alvo (a) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>"}
+LINHA | R1 | baseline-acoplada | C1 | 1 | 2026-10-27 23:44:08 | 200 | 7.340559 | 803 | {"resumo":"Aqui está um resumo claro e objetivo do texto:\n\nA integração direta e acoplada de provedores de Inteligência Artificial prejudica a manutenção do software, pois qualquer mudança externa afeta as regras de negócio. O uso do padrão arquitetural **Adapter** soluciona esse problema
+  corpo completo: {"resumo":"Aqui está um resumo claro e objetivo do texto:\n\nA integração direta e acoplada de provedores de Inteligência Artificial prejudica a manutenção do software, pois qualquer mudança externa afeta as regras de negócio. O uso do padrão arquitetural **Adapter** soluciona esse problema ao isolar o serviço externo atrás de uma interface estável. Isso permite trocar ou adicionar provedores com alterações pontuais no código, reduzindo custos de desenvolvimento e o risco de bugs.\n\n---\n\n**Em tópicos:**\n* **Problema:** O acoplamento direto com serviços de IA propaga mudanças externas para a regra de negócio do sistema.\n* **Solução:** Aplicação do padrão *Adapter* para isolar as dependências externas.\n* **Benefício:** Alterações localizadas, menor custo de evolução e redução de riscos (regressões)."}
+## estado=baseline-desacoplada commit=497ed71
+### baseline-desacoplada | C1 | controle de (a) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>"}
+LINHA | R1 | baseline-desacoplada | C1 | 1 | 2026-10-27 23:44:27 | 200 | 7.801857 | 782 | {"resumo":"Aqui está um resumo claro e objetivo do texto:\n\nO acoplamento direto a serviços externos de inteligência artificial compromete a manutenibilidade do software. A aplicação do padrão **Adapter** resolve esse problema ao isolar essas dependências atrás de uma interface estável. Co
+  corpo completo: {"resumo":"Aqui está um resumo claro e objetivo do texto:\n\nO acoplamento direto a serviços externos de inteligência artificial compromete a manutenibilidade do software. A aplicação do padrão **Adapter** resolve esse problema ao isolar essas dependências atrás de uma interface estável. Com isso, a troca ou adição de provedores exige apenas alterações pontuais, reduzindo os custos de evolução e os riscos de falhas (regressões) no sistema.\n\n---\n\n**Em tópicos (para leitura rápida):**\n* **Problema:** Integrações acopladas com IA fazem com que mudanças externas afetem as regras de negócio.\n* **Solução:** O padrão *Adapter* isola o serviço externo usando uma interface estável.\n* **Benefício:** Facilita a troca de provedores, diminui o custo de manutenção e reduz o risco de erros."}
+## estado=cenario-2-acoplada commit=cf372e9
+### cenario-2-acoplada | C1 | alvo (b) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>"}
+LINHA | R1 | cenario-2-acoplada | C1 | 1 | 2026-10-27 23:44:49 | 200 | 6.564955 | 411 | {"resumo":"**Resumo:**\n\nO acoplamento direto a provedores externos de inteligência artificial compromete a manutenção do sistema, pois alterações na IA impactam as regras de negócio. Para resolver isso, o **padrão *Adapter*** isola o serviço externo por meio de uma interface estável, perm
+  corpo completo: {"resumo":"**Resumo:**\n\nO acoplamento direto a provedores externos de inteligência artificial compromete a manutenção do sistema, pois alterações na IA impactam as regras de negócio. Para resolver isso, o **padrão *Adapter*** isola o serviço externo por meio de uma interface estável, permitindo trocar ou adicionar provedores com alterações pontuais, o que reduz os custos de evolução e os riscos de erros (regressões)."}
+### cenario-2-acoplada | C8 | alvo (c) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>","provedor":"gemini"}
+LINHA | R1 | cenario-2-acoplada | C8 | 1 | 2026-10-27 23:45:17 | 200 | 4.676790 | 421 | {"resumo":"**Resumo:**\n\nO acoplamento direto com provedores externos de inteligência artificial prejudica a manutenibilidade do sistema, pois mudanças externas afetam as regras de negócio. O uso do padrão de projeto *Adapter* resolve esse problema ao isolar as dependências em uma interface es
+  corpo completo: {"resumo":"**Resumo:**\n\nO acoplamento direto com provedores externos de inteligência artificial prejudica a manutenibilidade do sistema, pois mudanças externas afetam as regras de negócio. O uso do padrão de projeto *Adapter* resolve esse problema ao isolar as dependências em uma interface estável, permitindo alterar ou adicionar provedores de forma localizada, o que reduz os custos de evolução e o risco de erros (regressões)."}
+## estado=cenario-2-desacoplada commit=d784cc8
+### cenario-2-desacoplada | C8 | alvo (d) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>","provedor":"gemini"}
+LINHA | R1 | cenario-2-desacoplada | C8 | 1 | 2026-10-27 23:45:34 | 200 | 5.880927 | 359 | {"resumo":"**Resumo:**\n\nO acoplamento direto de serviços de IA às regras de negócio compromete a manutenção do sistema. O padrão de projeto *Adapter* resolve esse problema ao isolar as dependências externas atrás de uma interface estável, permitindo trocar ou adicionar provedores por meio
+  corpo completo: {"resumo":"**Resumo:**\n\nO acoplamento direto de serviços de IA às regras de negócio compromete a manutenção do sistema. O padrão de projeto *Adapter* resolve esse problema ao isolar as dependências externas atrás de uma interface estável, permitindo trocar ou adicionar provedores por meio de alterações pontuais, o que reduz os custos de evolução e o risco de falhas."}
+### cenario-2-desacoplada | C1 | controle de (b) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>"}
+LINHA | R1 | cenario-2-desacoplada | C1 | 1 | 2026-10-27 23:46:02 | 200 | 5.678316 | 375 | {"resumo":"**Resumo:**\n\nO acoplamento direto de serviços de Inteligência Artificial às regras de negócio compromete a manutenibilidade do sistema. Para resolver isso, o padrão de projeto **Adapter** isola o provedor externo atrás de uma interface estável, permitindo alterar ou substituir se
+  corpo completo: {"resumo":"**Resumo:**\n\nO acoplamento direto de serviços de Inteligência Artificial às regras de negócio compromete a manutenibilidade do sistema. Para resolver isso, o padrão de projeto **Adapter** isola o provedor externo atrás de uma interface estável, permitindo alterar ou substituir serviços de IA de forma localizada, o que reduz os custos de evolução e os riscos de regressão."}
+# Rodada R1 concluída: 2026-10-27T23:46:10-03:00
+
+################################################################
+# Rodada: R2 | início: 2026-10-28T08:22:03-03:00
+# Porta: 8081 | tentativas máx.: 5 | intervalo: 20s | uma requisição por vez
+# Java: openjdk version "17.0.20.1" 2026-08-18
+# Colunas LINHA: rodada | estado | caso | tentativa | horário | status | duração_s | tamanho_resumo | corpo (300 caracteres)
+## estado=baseline-acoplada commit=295d660
+### baseline-acoplada | C1 | alvo (a) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>"}
+LINHA | R2 | baseline-acoplada | C1 | 1 | 2026-10-28 08:22:17 | 200 | 7.319299 | 481 | {"resumo":"**Resumo:**\n\nO texto destaca que o acoplamento direto com provedores externos de Inteligência Artificial compromete a manutenibilidade do software ao propagar mudanças para as regras de negócio. Para solucionar isso, recomenda o uso do padrão de projeto *Adapter*, que isola as depen
+  corpo completo: {"resumo":"**Resumo:**\n\nO texto destaca que o acoplamento direto com provedores externos de Inteligência Artificial compromete a manutenibilidade do software ao propagar mudanças para as regras de negócio. Para solucionar isso, recomenda o uso do padrão de projeto *Adapter*, que isola as dependências externas por meio de uma interface estável. Essa abordagem facilita a troca ou inclusão de provedores com alterações pontuais, reduzindo o custo de evolução e o risco de falhas no sistema."}
+## estado=baseline-desacoplada commit=497ed71
+### baseline-desacoplada | C1 | controle de (a) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>"}
+LINHA | R2 | baseline-desacoplada | C1 | 1 | 2026-10-28 08:22:36 | 200 | 7.588897 | 440 | {"resumo":"**Resumo:**\n\nO acoplamento direto entre um sistema e provedores externos de Inteligência Artificial compromete a manutenibilidade, pois mudanças no fornecedor afetam as regras de negócio. A aplicação do padrão de projeto **Adapter** resolve esse problema ao isolar a integração a
+  corpo completo: {"resumo":"**Resumo:**\n\nO acoplamento direto entre um sistema e provedores externos de Inteligência Artificial compromete a manutenibilidade, pois mudanças no fornecedor afetam as regras de negócio. A aplicação do padrão de projeto **Adapter** resolve esse problema ao isolar a integração atrás de uma interface estável, permitindo alterar ou adicionar provedores de forma localizada, o que reduz o custo de evolução do software e o risco de falhas."}
+## estado=cenario-2-acoplada commit=cf372e9
+### cenario-2-acoplada | C1 | alvo (b) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>"}
+LINHA | R2 | cenario-2-acoplada | C1 | 1 | 2026-10-28 08:22:59 | 200 | 12.028951 | 406 | {"resumo":"Aqui está um resumo claro e objetivo do texto:\n\nA integração acoplada com serviços externos de IA prejudica a manutenção do software. Para resolver isso, o padrão de projeto ***Adapter*** isola o provedor externo por meio de uma interface estável, garantindo que eventuais mudan
+  corpo completo: {"resumo":"Aqui está um resumo claro e objetivo do texto:\n\nA integração acoplada com serviços externos de IA prejudica a manutenção do software. Para resolver isso, o padrão de projeto ***Adapter*** isola o provedor externo por meio de uma interface estável, garantindo que eventuais mudanças na IA fiquem restritas a pontos específicos do código. Isso reduz o custo de evolução do sistema e o risco de novos erros."}
+### cenario-2-acoplada | C8 | alvo (c) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>","provedor":"gemini"}
+LINHA | R2 | cenario-2-acoplada | C8 | 1 | 2026-10-28 08:23:33 | 200 | 8.806658 | 415 | {"resumo":"**Resumo:**\n\nO acoplamento direto com provedores de inteligência artificial prejudica a manutenibilidade do sistema, pois alterações externas afetam as regras de negócio. O padrão de projeto **Adapter** resolve esse problema ao isolar o serviço externo atrás de uma interface est
+  corpo completo: {"resumo":"**Resumo:**\n\nO acoplamento direto com provedores de inteligência artificial prejudica a manutenibilidade do sistema, pois alterações externas afetam as regras de negócio. O padrão de projeto **Adapter** resolve esse problema ao isolar o serviço externo atrás de uma interface estável, permitindo trocar ou adicionar provedores com mudanças pontuais, o que reduz custos de evolução e riscos de falhas (regressões)."}
+## estado=cenario-2-desacoplada commit=d784cc8
+### cenario-2-desacoplada | C8 | alvo (d) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>","provedor":"gemini"}
+LINHA | R2 | cenario-2-desacoplada | C8 | 1 | 2026-10-28 08:23:57 | 502 | 6.696075 | 0 | {"mensagem":"O serviço de IA está indisponível no momento. Tente novamente em instantes."} 
+  corpo completo: {"mensagem":"O serviço de IA está indisponível no momento. Tente novamente em instantes."}
+  log da aplicação nesta tentativa:
+    2026-10-28T08:23:57.210-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/resumo", parameters={}
+    2026-10-28T08:23:57.211-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.adapter.prototype.controller.ResumoController#gerarResumo(ResumoRequest)
+    2026-10-28T08:23:57.261-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.adapter.prototype.dto.ResumoRequest@30cb8318]
+    2026-10-28T08:23:57.279-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] o.s.web.client.RestTemplate              : HTTP POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent
+    2026-10-28T08:23:57.284-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+    2026-10-28T08:23:57.287-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] o.s.web.client.RestTemplate              : Writing [com.adapter.prototype.provider.gemini.GeminiRequest@3829c7d2] as "application/json"
+    2026-10-28T08:24:03.896-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] o.s.web.client.RestTemplate              : Response 503 SERVICE_UNAVAILABLE
+    2026-10-28T08:24:03.900-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.adapter.prototype.exception.GlobalExceptionHandler#tratarProvedorIndisponivel(ProvedorIndisponivelException)
+    2026-10-28T08:24:03.902-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+    2026-10-28T08:24:03.902-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.adapter.prototype.dto.ErroResponse@6f72526e]
+    2026-10-28T08:24:03.904-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 502 BAD_GATEWAY
+    Binary file (standard input) matches
+LINHA | R2 | cenario-2-desacoplada | C8 | 2 | 2026-10-28 08:24:26 | 502 | 11.310615 | 0 | {"mensagem":"O serviço de IA está indisponível no momento. Tente novamente em instantes."} 
+  corpo completo: {"mensagem":"O serviço de IA está indisponível no momento. Tente novamente em instantes."}
+  log da aplicação nesta tentativa:
+    2026-10-28T08:24:26.383-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/resumo", parameters={}
+    2026-10-28T08:24:26.384-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.adapter.prototype.controller.ResumoController#gerarResumo(ResumoRequest)
+    2026-10-28T08:24:26.384-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.adapter.prototype.dto.ResumoRequest@3008533]
+    2026-10-28T08:24:26.385-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] o.s.web.client.RestTemplate              : HTTP POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent
+    2026-10-28T08:24:26.385-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+    2026-10-28T08:24:26.385-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] o.s.web.client.RestTemplate              : Writing [com.adapter.prototype.provider.gemini.GeminiRequest@dc77b23] as "application/json"
+    2026-10-28T08:24:37.691-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] o.s.web.client.RestTemplate              : Response 503 SERVICE_UNAVAILABLE
+    2026-10-28T08:24:37.692-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.adapter.prototype.exception.GlobalExceptionHandler#tratarProvedorIndisponivel(ProvedorIndisponivelException)
+    2026-10-28T08:24:37.692-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+    2026-10-28T08:24:37.692-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.adapter.prototype.dto.ErroResponse@9f8ee43]
+    2026-10-28T08:24:37.693-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 502 BAD_GATEWAY
+    Binary file (standard input) matches
+LINHA | R2 | cenario-2-desacoplada | C8 | 3 | 2026-10-28 08:25:00 | 502 | 7.529511 | 0 | {"mensagem":"O serviço de IA está indisponível no momento. Tente novamente em instantes."} 
+  corpo completo: {"mensagem":"O serviço de IA está indisponível no momento. Tente novamente em instantes."}
+  log da aplicação nesta tentativa:
+    2026-10-28T08:25:00.066-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/api/resumo", parameters={}
+    2026-10-28T08:25:00.066-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.adapter.prototype.controller.ResumoController#gerarResumo(ResumoRequest)
+    2026-10-28T08:25:00.067-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.adapter.prototype.dto.ResumoRequest@6ce6634a]
+    2026-10-28T08:25:00.067-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] o.s.web.client.RestTemplate              : HTTP POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent
+    2026-10-28T08:25:00.068-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+    2026-10-28T08:25:00.068-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] o.s.web.client.RestTemplate              : Writing [com.adapter.prototype.provider.gemini.GeminiRequest@622180a6] as "application/json"
+    2026-10-28T08:25:07.593-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] o.s.web.client.RestTemplate              : Response 503 SERVICE_UNAVAILABLE
+    2026-10-28T08:25:07.593-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.adapter.prototype.exception.GlobalExceptionHandler#tratarProvedorIndisponivel(ProvedorIndisponivelException)
+    2026-10-28T08:25:07.594-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+    2026-10-28T08:25:07.594-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.adapter.prototype.dto.ErroResponse@661e083a]
+    2026-10-28T08:25:07.594-03:00 DEBUG 8840 --- [prototype] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 502 BAD_GATEWAY
+    Binary file (standard input) matches
+LINHA | R2 | cenario-2-desacoplada | C8 | 4 | 2026-10-28 08:25:29 | 200 | 6.198710 | 429 | {"resumo":"**Resumo:**\n\nO acoplamento direto com provedores de inteligência artificial prejudica a manutenibilidade do software, pois mudanças externas afetam as regras de negócio. O uso do padrão de projeto *Adapter* soluciona esse problema ao isolar o serviço externo por meio de uma interfa
+  corpo completo: {"resumo":"**Resumo:**\n\nO acoplamento direto com provedores de inteligência artificial prejudica a manutenibilidade do software, pois mudanças externas afetam as regras de negócio. O uso do padrão de projeto *Adapter* soluciona esse problema ao isolar o serviço externo por meio de uma interface estável, permitindo trocar ou adicionar provedores com alterações pontuais, o que reduz os custos de evolução e os riscos de erros no sistema."}
+### cenario-2-desacoplada | C1 | controle de (b) | corpo da requisição: {"texto":"<TEXTO_VALIDO 485 caracteres>"}
+LINHA | R2 | cenario-2-desacoplada | C1 | 1 | 2026-10-28 08:25:58 | 200 | 6.155588 | 783 | {"resumo":"Aqui está um resumo claro e objetivo do texto:\n\n**Resumo:**\nIntegrar serviços externos (como provedores de IA) de forma acoplada compromete a manutenção do software. O uso do padrão arquitetural *Adapter* resolve esse problema ao isolar o provedor atrás de uma interface estável,
+  corpo completo: {"resumo":"Aqui está um resumo claro e objetivo do texto:\n\n**Resumo:**\nIntegrar serviços externos (como provedores de IA) de forma acoplada compromete a manutenção do software. O uso do padrão arquitetural *Adapter* resolve esse problema ao isolar o provedor atrás de uma interface estável, permitindo alterar ou adicionar serviços sem afetar as regras de negócio, o que reduz custos de evolução e o risco de erros no sistema.\n\n---\n\n**Pontos-chave:**\n* **Problema:** O alto acoplamento com serviços de IA faz com que mudanças externas afetem as regras de negócio.\n* **Solução:** O padrão *Adapter* isola as dependências externas por meio de uma interface estável.\n* **Benefício:** Redução de custos de manutenção e menor risco de falhas (regressões) ao trocar ou adicionar provedores."}
+# Rodada R2 concluída: 2026-10-28T08:26:08-03:00
+
+################################################################
+# Sondagem direta pós-R2 (fora da aplicação): até 5 chamadas, 20 s de intervalo, para no 1º status != 200, para registrar a mensagem do provedor
+SONDA | 1 | 2026-10-28 08:27:18 | 200 | 5.885816
+SONDA | 2 | 2026-10-28 08:27:44 | 200 | 13.994732
+SONDA | 3 | 2026-10-28 08:28:18 | 200 | 5.894935
+SONDA | 4 | 2026-10-28 08:28:44 | 200 | 5.050662
+SONDA | 5 | 2026-10-28 08:29:10 | 200 | 10.434543
